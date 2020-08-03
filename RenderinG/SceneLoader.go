@@ -19,7 +19,6 @@ type GPrintable interface {
 //
 type GConfig struct {
 	Frames int
-	Size   []int
 }
 
 //
@@ -96,7 +95,7 @@ func (g GConfig) Print(depth int) {
 	printSpacer(depth)
 	fmt.Println("GConfig")
 	printSpacer(depth)
-	fmt.Printf("Frames: %d, Size: [%d, %d]\n", g.Frames, g.Size[0], g.Size[1])
+	fmt.Printf("Frames: %d\n", g.Frames)
 	printSpacer(depth)
 	fmt.Println(" ")
 }

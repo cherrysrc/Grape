@@ -1,7 +1,6 @@
 {
   "Config": {
-    "frames": 600,
-    "size": [400, 400]
+    "frames": 600
   },
   "Objects": [
     {

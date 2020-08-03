@@ -45,8 +45,8 @@ func PixelRun() {
 
 	//Todo project name as window title
 	cfg := pixelgl.WindowConfig{
-		Title:  project.name,
-		Bounds: pixel.R(0, 0, 800, 600),
+		Title:  project.Name,
+		Bounds: pixel.R(0, 0, project.StageSize[0], project.StageSize[1]),
 		VSync:  true,
 	}
 

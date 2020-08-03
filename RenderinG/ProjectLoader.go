@@ -8,20 +8,27 @@ import (
 	"path/filepath"
 )
 
+//JSON Parsing helper struct
+type JSONProjectInfo struct {
+	Name      string
+	StageSize []float64
+	Scenes    []string
+}
+
 //
 //Struct holding project information
 //
 type GProject struct {
-	name   string
-	scenes []GScene
+	Name      string
+	StageSize []float64
+	Scenes    []GScene
 }
 
-//
 //Get a given scenes configuration and objects
 //param project: the project to extract from
 //param sceneIdx: index of the scene to retrieve information about
 func GetSceneProperties(project GProject, sceneIdx int) (GConfig, []GObject) {
-	return project.scenes[sceneIdx].Config, project.scenes[sceneIdx].Objects
+	return project.Scenes[sceneIdx].Config, project.Scenes[sceneIdx].Objects
 }
 
 //Loads a project by its file name
@@ -35,17 +42,17 @@ func LoadProject(name string) GProject {
 		log.Fatal(err)
 	}
 
-	var sceneStrings []string
+	var projectInfo JSONProjectInfo
 
-	err = json.Unmarshal(content, &sceneStrings)
+	err = json.Unmarshal(content, &projectInfo)
 
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	var scenes []GScene
-	for i := 0; i < len(sceneStrings); i++ {
-		absPath, err := filepath.Abs("Projects/" + name + "/" + sceneStrings[i] + ".json")
+	for i := range projectInfo.Scenes {
+		absPath, err := filepath.Abs("Projects/" + name + "/" + projectInfo.Scenes[i] + ".json")
 
 		if err != nil {
 			log.Fatal(err)
@@ -55,7 +62,8 @@ func LoadProject(name string) GProject {
 	}
 
 	return GProject{
-		name,
+		projectInfo.Name,
+		projectInfo.StageSize,
 		scenes,
 	}
 }
@@ -66,8 +74,8 @@ func LoadProject(name string) GProject {
 func (g GProject) Print(depth int) {
 	printSpacer(depth)
 	fmt.Println("GProject")
-	for i := range g.scenes {
+	for i := range g.Scenes {
 		printSpacer(depth)
-		g.scenes[i].Print(depth + 1)
+		g.Scenes[i].Print(depth + 1)
 	}
 }

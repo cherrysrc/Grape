@@ -1,4 +1,5 @@
-[
-    "Scene01",
-    "Scene02"
-]
+{
+  "Name": "TestP",
+  "StageSize": [800, 600],
+  "Scenes": ["Scene01", "Scene02"]
+}
