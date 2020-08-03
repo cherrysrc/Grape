@@ -2,9 +2,10 @@ package main
 
 import (
 	"RenderinG/RenderinG"
+	"github.com/faiface/pixel/pixelgl"
+	_ "image/png"
 )
 
 func main() {
-	project := RenderinG.LoadProject("TestP")
-	project.Print(0)
+	pixelgl.Run(RenderinG.PixelRun)
 }

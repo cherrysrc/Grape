@@ -15,6 +15,10 @@ type GProject struct {
 	scenes []GScene
 }
 
+func GetSceneProperties(project GProject, sceneIdx int) (GConfig, []GObject) {
+	return project.scenes[sceneIdx].Config, project.scenes[sceneIdx].Objects
+}
+
 //
 //Loads a project by its file name
 //

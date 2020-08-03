@@ -26,8 +26,8 @@ type GConfig struct {
 //Object data struct
 //
 type GObject struct {
-	Vertices [][]int
-	Color    string
+	Vertices [][]float64
+	Colors   [][]float64
 }
 
 //
@@ -74,13 +74,15 @@ func printSpacer(count int) {
 func (g GObject) Print(depth int) {
 	printSpacer(depth)
 	fmt.Println("GObject")
-	printSpacer(depth)
-	fmt.Printf("Color: %s\n", g.Color)
+	for i := range g.Colors {
+		printSpacer(depth)
+		fmt.Printf("[%f, %f, %f, %f]\n", g.Colors[i][0], g.Colors[i][2], g.Colors[i][3], g.Colors[i][3])
+	}
 	printSpacer(depth)
 	fmt.Printf("Vertices:\n")
-	for i := 0; i < len(g.Vertices); i++ {
+	for i := range g.Vertices {
 		printSpacer(depth)
-		fmt.Printf("[%d, %d]\n", g.Vertices[i][0], g.Vertices[i][1])
+		fmt.Printf("[%f, %f]\n", g.Vertices[i][0], g.Vertices[i][1])
 	}
 	printSpacer(depth)
 	fmt.Println(" ")
