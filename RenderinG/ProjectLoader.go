@@ -15,13 +15,17 @@ type GProject struct {
 	scenes []GScene
 }
 
+//
+//Get a given scenes configuration and objects
+//param project: the project to extract from
+//param sceneIdx: index of the scene to retrieve information about
 func GetSceneProperties(project GProject, sceneIdx int) (GConfig, []GObject) {
 	return project.scenes[sceneIdx].Config, project.scenes[sceneIdx].Objects
 }
 
-//
 //Loads a project by its file name
-//
+//param name: name of the project to load
+//returns: The project structure
 func LoadProject(name string) GProject {
 	absPath, err := filepath.Abs("./Projects/" + name + "/config.json")
 	content, err := ioutil.ReadFile(absPath)

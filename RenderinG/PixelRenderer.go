@@ -9,9 +9,9 @@ import (
 	"os"
 )
 
-//
 //Loads a project and converts its objects into drawables to be used by pixel
-//
+//param name: name of the project to load
+//returns: (1)the project loaded as a GProject, (2)a IMDraw, used for pixel engine
 func initProject(name string) (GProject, *imdraw.IMDraw) {
 	project := LoadProject(name)
 	vertices := imdraw.New(nil)
@@ -67,9 +67,9 @@ func PixelRun() {
 	}
 }
 
-//
 //Loads a single image into memory to be used as a sprite
-//
+//param path: path of the file
+//returns: the new picture
 func loadPicture(path string) (pixel.Picture, error) {
 	file, err := os.Open(path)
 	if err != nil {

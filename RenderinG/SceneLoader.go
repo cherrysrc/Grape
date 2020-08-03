@@ -40,7 +40,8 @@ type GScene struct {
 
 //
 //Loads a scene by its filename
-//
+//param name: scene name
+//returns: Newly loaded GScene
 func LoadScene(name string) GScene {
 	content, err := ioutil.ReadFile(name)
 
