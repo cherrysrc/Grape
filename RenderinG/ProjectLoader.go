@@ -12,6 +12,7 @@ import (
 //Struct holding project information
 //
 type GProject struct {
+	name   string
 	scenes []GScene
 }
 
@@ -54,6 +55,7 @@ func LoadProject(name string) GProject {
 	}
 
 	return GProject{
+		name,
 		scenes,
 	}
 }

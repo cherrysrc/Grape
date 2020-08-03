@@ -39,12 +39,13 @@ func initProject(name string) (GProject, *imdraw.IMDraw) {
 //Pixel Engines main loop
 //
 func PixelRun() {
+	//Todo actual parameter for project name instead of hardcoded 'TestP'
 	project, vertices := initProject("TestP")
 	project.Print(0)
 
 	//Todo project name as window title
 	cfg := pixelgl.WindowConfig{
-		Title:  "ProjectNameHere",
+		Title:  project.name,
 		Bounds: pixel.R(0, 0, 800, 600),
 		VSync:  true,
 	}
