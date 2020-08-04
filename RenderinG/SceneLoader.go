@@ -82,15 +82,16 @@ func printSpacer(count int) {
 func (g GObject) Print(depth int) {
 	printSpacer(depth)
 	fmt.Printf("GObject: %d\n", g.ID)
-	for i := range g.Colors {
-		printSpacer(depth)
-		fmt.Printf("[%f, %f, %f, %f]\n", g.Colors[i][0], g.Colors[i][2], g.Colors[i][3], g.Colors[i][3])
-	}
-	printSpacer(depth)
 	fmt.Printf("Vertices:\n")
 	for i := range g.Vertices {
 		printSpacer(depth)
 		fmt.Printf("[%f, %f]\n", g.Vertices[i][0], g.Vertices[i][1])
+	}
+	printSpacer(depth)
+	fmt.Printf("Colors:\n")
+	for i := range g.Colors {
+		printSpacer(depth)
+		fmt.Printf("[%f, %f, %f, %f]\n", g.Colors[i][0], g.Colors[i][2], g.Colors[i][3], g.Colors[i][3])
 	}
 	printSpacer(depth)
 	fmt.Println(" ")

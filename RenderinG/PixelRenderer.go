@@ -9,34 +9,32 @@ import (
 	"os"
 )
 
-//Loads a project and converts its objects into drawables to be used by pixel
-//param name: name of the project to load
-//returns: (1)the project loaded as a GProject, (2)a IMDraw, used for pixel engine
-func initProject(name string) (GProject, *imdraw.IMDraw) {
-	project := LoadProject(name)
+func calculateVertices(project GProject) *imdraw.IMDraw {
 	vertices := imdraw.New(nil)
+	scene := project.GetCurrentScene()
 
-	_, sceneObjects := GetSceneProperties(project, 0)
+	for i := range scene.Objects {
+		colorCount := len(scene.Objects[i].Colors)
 
-	for i := range sceneObjects {
-		for vertex := range sceneObjects[i].Vertices {
+		for vertex := range scene.Objects[i].Vertices {
 
-			if vertex < len(sceneObjects[i].Colors) { //Continue using last color, in case there is no color given for every vertex
+			if vertex < colorCount {
 				vertices.Color = pixel.RGBA{
-					R: sceneObjects[i].Colors[vertex][0],
-					G: sceneObjects[i].Colors[vertex][1],
-					B: sceneObjects[i].Colors[vertex][2],
-					A: sceneObjects[i].Colors[vertex][3],
+					R: scene.Objects[i].Colors[vertex][0],
+					G: scene.Objects[i].Colors[vertex][1],
+					B: scene.Objects[i].Colors[vertex][2],
+					A: scene.Objects[i].Colors[vertex][3],
 				}
 			}
 
-			vertices.Push(pixel.V(sceneObjects[i].Vertices[vertex][0], sceneObjects[i].Vertices[vertex][1]))
+			vertices.Push(pixel.V(scene.Objects[i].Vertices[vertex][0], scene.Objects[i].Vertices[vertex][1]))
 		}
+
 		//Todo json adjustable thickness
 		vertices.Polygon(1)
 	}
 
-	return project, vertices
+	return vertices
 }
 
 //
@@ -44,8 +42,9 @@ func initProject(name string) (GProject, *imdraw.IMDraw) {
 //
 func PixelRun() {
 	//Todo actual parameter for project name instead of hardcoded 'TestP'
-	project, vertices := initProject("TestP")
-	project.Print(0)
+	project := LoadProject("TestP")
+	project.NextScene()
+	vertices := calculateVertices(project)
 
 	cfg := pixelgl.WindowConfig{
 		Title:  project.Name,

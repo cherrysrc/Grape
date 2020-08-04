@@ -15,6 +15,11 @@ type JSONProjectInfo struct {
 	Scenes    []string
 }
 
+type GProjectInstance interface {
+	GetCurrentScene()
+	NextScene()
+}
+
 //
 //Struct holding project information
 //
@@ -22,13 +27,15 @@ type GProject struct {
 	Name      string
 	StageSize []float64
 	Scenes    []GScene
+	sceneIdx  int
 }
 
-//Get a given scenes configuration and objects
-//param project: the project to extract from
-//param sceneIdx: index of the scene to retrieve information about
-func GetSceneProperties(project GProject, sceneIdx int) (GConfig, []GObject) {
-	return project.Scenes[sceneIdx].Config, project.Scenes[sceneIdx].Objects
+func (project GProject) GetCurrentScene() GScene {
+	return project.Scenes[project.sceneIdx]
+}
+
+func (project *GProject) NextScene() {
+	project.sceneIdx++
 }
 
 //Loads a project by its file name
@@ -65,17 +72,18 @@ func LoadProject(name string) GProject {
 		projectInfo.Name,
 		projectInfo.StageSize,
 		scenes,
+		0,
 	}
 }
 
 //
 //GPrintable interface (GProject) implementation
 //
-func (g GProject) Print(depth int) {
+func (project GProject) Print(depth int) {
 	printSpacer(depth)
 	fmt.Println("GProject")
-	for i := range g.Scenes {
+	for i := range project.Scenes {
 		printSpacer(depth)
-		g.Scenes[i].Print(depth + 1)
+		project.Scenes[i].Print(depth + 1)
 	}
 }
