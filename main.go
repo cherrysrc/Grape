@@ -7,5 +7,8 @@ import (
 )
 
 func main() {
-	pixelgl.Run(RenderinG.PixelRun)
+	pixelgl.Run(func() {
+		//Todo use cli args
+		RenderinG.PixelRun("TestP")
+	})
 }

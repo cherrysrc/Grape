@@ -40,10 +40,9 @@ func calculateVertices(project GProject) *imdraw.IMDraw {
 //
 //Pixel Engines main loop
 //
-func PixelRun() {
+func PixelRun(projectName string) {
 	//Todo actual parameter for project name instead of hardcoded 'TestP'
-	project := LoadProject("TestP")
-	project.NextScene()
+	project := LoadProject(projectName)
 	vertices := calculateVertices(project)
 
 	cfg := pixelgl.WindowConfig{
@@ -64,8 +63,9 @@ func PixelRun() {
 		//last = time.Now()
 
 		window.Clear(colornames.Firebrick)
-		//Render here
+
 		vertices.Draw(window)
+
 		window.Update()
 	}
 }
