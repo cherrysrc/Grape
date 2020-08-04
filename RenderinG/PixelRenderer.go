@@ -20,12 +20,16 @@ func initProject(name string) (GProject, *imdraw.IMDraw) {
 
 	for i := range sceneObjects {
 		for vertex := range sceneObjects[i].Vertices {
-			vertices.Color = pixel.RGBA{
-				R: sceneObjects[i].Colors[vertex][0],
-				G: sceneObjects[i].Colors[vertex][1],
-				B: sceneObjects[i].Colors[vertex][2],
-				A: sceneObjects[i].Colors[vertex][3],
+
+			if vertex < len(sceneObjects[i].Colors) { //Continue using last color, in case there is no color given for every vertex
+				vertices.Color = pixel.RGBA{
+					R: sceneObjects[i].Colors[vertex][0],
+					G: sceneObjects[i].Colors[vertex][1],
+					B: sceneObjects[i].Colors[vertex][2],
+					A: sceneObjects[i].Colors[vertex][3],
+				}
 			}
+
 			vertices.Push(pixel.V(sceneObjects[i].Vertices[vertex][0], sceneObjects[i].Vertices[vertex][1]))
 		}
 		//Todo json adjustable thickness
@@ -43,7 +47,6 @@ func PixelRun() {
 	project, vertices := initProject("TestP")
 	project.Print(0)
 
-	//Todo project name as window title
 	cfg := pixelgl.WindowConfig{
 		Title:  project.Name,
 		Bounds: pixel.R(0, 0, project.StageSize[0], project.StageSize[1]),

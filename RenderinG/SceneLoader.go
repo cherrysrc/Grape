@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"math/rand"
 )
 
 //
@@ -25,6 +26,7 @@ type GConfig struct {
 //Object data struct
 //
 type GObject struct {
+	ID       int
 	Vertices [][]float64
 	Colors   [][]float64
 }
@@ -56,6 +58,12 @@ func LoadScene(name string) GScene {
 		log.Fatal(err)
 	}
 
+	for i := range scene.Objects {
+		if scene.Objects[i].ID == 0 {
+			scene.Objects[i].ID = rand.Intn(100000)
+		}
+	}
+
 	return scene
 }
 
@@ -73,7 +81,7 @@ func printSpacer(count int) {
 //
 func (g GObject) Print(depth int) {
 	printSpacer(depth)
-	fmt.Println("GObject")
+	fmt.Printf("GObject: %d\n", g.ID)
 	for i := range g.Colors {
 		printSpacer(depth)
 		fmt.Printf("[%f, %f, %f, %f]\n", g.Colors[i][0], g.Colors[i][2], g.Colors[i][3], g.Colors[i][3])
