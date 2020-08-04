@@ -1,0 +1,11 @@
+#first number is the frame at which the animation ends
+#second number is the frame at which the animation ends
+(100 150)
+{
+#moves a given object to a given location
+#in the given time
+RectangleA move_to 400 100
+
+#move only the first vertex to 50 50
+RectangleA move_vertex_to 50 50 0
+};

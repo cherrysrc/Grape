@@ -26,7 +26,7 @@ type GConfig struct {
 //Object data struct
 //
 type GObject struct {
-	ID       int
+	ID       string
 	Vertices [][]float64
 	Colors   [][]float64
 }
@@ -39,7 +39,16 @@ type GScene struct {
 	Objects []GObject
 }
 
-//
+const letterBytes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+func randomIdentifier(n int) string {
+	b := make([]byte, n)
+	for i := range b {
+		b[i] = letterBytes[rand.Int63()%int64(len(letterBytes))]
+	}
+	return string(b)
+}
+
 //Loads a scene by its filename
 //param name: scene name
 //returns: Newly loaded GScene
@@ -59,8 +68,8 @@ func LoadScene(name string) GScene {
 	}
 
 	for i := range scene.Objects {
-		if scene.Objects[i].ID == 0 {
-			scene.Objects[i].ID = rand.Intn(100000)
+		if scene.Objects[i].ID == "" {
+			scene.Objects[i].ID = randomIdentifier(5)
 		}
 	}
 
@@ -81,7 +90,8 @@ func printSpacer(count int) {
 //
 func (g GObject) Print(depth int) {
 	printSpacer(depth)
-	fmt.Printf("GObject: %d\n", g.ID)
+	fmt.Printf("GObject: %s\n", g.ID)
+	printSpacer(depth)
 	fmt.Printf("Vertices:\n")
 	for i := range g.Vertices {
 		printSpacer(depth)

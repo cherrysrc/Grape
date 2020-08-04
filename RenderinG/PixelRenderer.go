@@ -41,8 +41,8 @@ func calculateVertices(project GProject) *imdraw.IMDraw {
 //Pixel Engines main loop
 //
 func PixelRun(projectName string) {
-	//Todo actual parameter for project name instead of hardcoded 'TestP'
 	project := LoadProject(projectName)
+	project.Print(0)
 	vertices := calculateVertices(project)
 
 	cfg := pixelgl.WindowConfig{

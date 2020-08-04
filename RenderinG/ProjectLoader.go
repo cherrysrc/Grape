@@ -16,8 +16,9 @@ type JSONProjectInfo struct {
 }
 
 type GProjectInstance interface {
-	GetCurrentScene()
+	GetCurrentScene() GScene
 	NextScene()
+	GetObjectById(string) GObject
 }
 
 //
@@ -36,6 +37,18 @@ func (project GProject) GetCurrentScene() GScene {
 
 func (project *GProject) NextScene() {
 	project.sceneIdx++
+}
+
+func (project *GProject) GetObjectById(id string) *GObject {
+	scene := project.GetCurrentScene()
+
+	for i := range scene.Objects {
+		if scene.Objects[i].ID == id {
+			return &scene.Objects[i]
+		}
+	}
+
+	return nil
 }
 
 //Loads a project by its file name
