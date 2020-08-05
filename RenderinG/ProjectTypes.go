@@ -1,8 +1,12 @@
 package RenderinG
 
-import "fmt"
+import (
+	"fmt"
+	"math/rand"
+)
 
-type Translatable interface {
+type Animatable interface {
+	GenerateID(int)
 	CalculateCenter()
 	Translate([]float64)
 }
@@ -15,8 +19,14 @@ type GPrintable interface {
 
 type GProjectConfig struct {
 	Name      string
-	StageSize []int
+	StageSize []float64
 	Scenes    []string
+}
+
+type GProject struct {
+	Name      string
+	StageSize []float64
+	Scenes    []GScene
 }
 
 //Object Configuration
@@ -40,6 +50,20 @@ type GAnimation struct {
 	EndFrame        float64
 	Target          *GObject
 	FunctionsParams map[string][]interface{}
+}
+
+//--------------------
+//Translatable interface implementation
+//--------------------
+
+var letterBytes string = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+func (obj *GObject) GenerateID(n int) {
+	b := make([]byte, n)
+	for i := range b {
+		b[i] = letterBytes[rand.Int63()%int64(len(letterBytes))]
+	}
+	obj.ID = string(b)
 }
 
 func (obj *GObject) CalculateCenter() {
@@ -74,25 +98,26 @@ func (obj *GObject) Translate(targetP []float64) {
 	obj.GeometricCenter = targetP
 }
 
+//---------------
+//Various debug printing related methods
+//---------------
+
 func printSpacer(count int) {
 	for i := 0; i < count; i++ {
-		fmt.Printf(" ")
+		fmt.Printf("  ")
 	}
 }
 
-func (config GProjectConfig) Print(depth int) {
+func (project GProject) Print(depth int) {
 	printSpacer(depth)
-	fmt.Printf("GConfig\n")
+	fmt.Printf("GProject %s\n", project.Name)
 
 	printSpacer(depth)
-	fmt.Printf("Name: %s\n", config.Name)
+	fmt.Printf("Stage size: %.2f by %.2f\n", project.StageSize[0], project.StageSize[1])
 
 	printSpacer(depth)
-	fmt.Printf("Stage size: %d by %d\n", config.StageSize[0], config.StageSize[1])
-
-	printSpacer(depth)
-	for i := range config.Scenes {
-		fmt.Print(config.Scenes[i])
+	for i := range project.Scenes {
+		project.Scenes[i].Print(depth + 1)
 	}
 }
 
@@ -101,25 +126,38 @@ func (object GObject) Print(depth int) {
 	fmt.Printf("ID: %s\n", object.ID)
 
 	printSpacer(depth)
+	fmt.Printf("Geometric Center: ")
+	fmt.Println(object.GeometricCenter)
+
+	printSpacer(depth)
 	fmt.Println("Vertices:")
+
+	printSpacer(depth)
 	for i := range object.Vertices {
 		fmt.Print(object.Vertices[i])
 	}
+	fmt.Println()
 
 	printSpacer(depth)
 	fmt.Println("Colors:")
+
+	printSpacer(depth)
 	for i := range object.Colors {
 		fmt.Print(object.Colors[i])
 	}
+	fmt.Println()
 }
 
 func (scene GScene) Print(depth int) {
 	printSpacer(depth)
-	fmt.Printf("Frames: %d", scene.Frames)
+	fmt.Printf("GScene\n")
 
-	printSpacer(depth)
+	printSpacer(depth + 1)
+	fmt.Printf("Frames: %d\n", scene.Frames)
+
+	printSpacer(depth + 1)
 	fmt.Println("Objects:")
 	for i := range scene.Objects {
-		scene.Objects[i].Print(depth + 1)
+		scene.Objects[i].Print(depth + 2)
 	}
 }
