@@ -53,6 +53,7 @@ func LoadProject(name string) *GProject {
 
 	project.Name = projectConfig.Name
 	project.StageSize = projectConfig.StageSize
+	project.sceneIdx = 0
 
 	for i := range projectConfig.Scenes {
 		scene := loadScene("./Projects/" + name + "/" + projectConfig.Scenes[i] + ".json")

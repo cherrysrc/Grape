@@ -2,10 +2,18 @@ package RenderinG
 
 import (
 	"fmt"
+	"github.com/faiface/pixel"
+	"github.com/faiface/pixel/imdraw"
 	"math/rand"
 )
 
-type Animatable interface {
+type iProject interface {
+	GetCurrentScene() GScene
+	CalculateVertices() *imdraw.IMDraw
+}
+
+//Animatable objects implement these functions
+type iObject interface {
 	GenerateID(int)
 	CalculateCenter()
 	Translate([]float64)
@@ -15,18 +23,6 @@ type Animatable interface {
 //Uses indentation
 type GPrintable interface {
 	Print(int)
-}
-
-type GProjectConfig struct {
-	Name      string
-	StageSize []float64
-	Scenes    []string
-}
-
-type GProject struct {
-	Name      string
-	StageSize []float64
-	Scenes    []GScene
 }
 
 //Object Configuration
@@ -50,6 +46,56 @@ type GAnimation struct {
 	EndFrame        float64
 	Target          *GObject
 	FunctionsParams map[string][]interface{}
+}
+
+type GProjectConfig struct {
+	Name      string
+	StageSize []float64
+	Scenes    []string
+}
+
+type GProject struct {
+	Name      string
+	StageSize []float64
+	Scenes    []GScene
+	sceneIdx  int
+}
+
+//iProject GetCurrentScene implementation
+func (project GProject) GetCurrentScene() GScene {
+	return project.Scenes[project.sceneIdx]
+}
+
+//iProject CalculateVertices implementation
+func (project GProject) CalculateVertices() *imdraw.IMDraw {
+	vertices := imdraw.New(nil)
+	scene := project.GetCurrentScene()
+
+	for i := range scene.Objects {
+
+		colorCount := len(scene.Objects[i].Colors)
+
+		for vertex := range scene.Objects[i].Vertices {
+
+			//Set color
+			//Results in the last specified color to be used in case there is no color for every vertex
+			if vertex < colorCount {
+				vertices.Color = pixel.RGBA{
+					R: scene.Objects[i].Colors[vertex][0],
+					G: scene.Objects[i].Colors[vertex][1],
+					B: scene.Objects[i].Colors[vertex][2],
+					A: scene.Objects[i].Colors[vertex][3],
+				}
+			}
+
+			//Add vertex
+			vertices.Push(pixel.V(scene.Objects[i].Vertices[vertex][0], scene.Objects[i].Vertices[vertex][1]))
+		}
+		//Finish up shape
+		vertices.Polygon(0)
+	}
+
+	return vertices
 }
 
 //--------------------
