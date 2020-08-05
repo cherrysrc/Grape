@@ -1,7 +1,5 @@
 {
-  "Config": {
-    "frames": 600
-  },
+  "Frames": 600,
   "Objects": [
     {
       "id": "RectangleA",
