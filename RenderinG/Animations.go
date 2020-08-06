@@ -12,9 +12,9 @@ var AnimFunctions = map[string]interface{}{
 func TranslateAnim(params []interface{}) {
 	//Convert parameters
 	anim := params[0].(*Types.GAnimation)
-	targetPos := params[1].([]float64)
-	channel := params[2].(chan float64)
-
+	targetPos := []float64{params[1].(float64), params[2].(float64)}
+	channel := params[3].(chan float64)
+	
 	//Save original position
 	originPos := anim.Target.GeometricCenter
 
