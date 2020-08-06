@@ -1,5 +1,7 @@
 package RenderinG
 
+import "RenderinG/RenderinG/Types"
+
 var AnimFunctions = map[string]interface{}{
 	"move_to": TranslateAnim,
 }
@@ -9,7 +11,7 @@ var AnimFunctions = map[string]interface{}{
 //func TranslateAnim(anim *GAnimation, targetPos []float64, channel chan float64) {
 func TranslateAnim(params []interface{}) {
 	//Convert parameters
-	anim := params[0].(*GAnimation)
+	anim := params[0].(*Types.GAnimation)
 	targetPos := params[1].([]float64)
 	channel := params[2].(chan float64)
 
