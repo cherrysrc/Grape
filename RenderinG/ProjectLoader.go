@@ -8,7 +8,6 @@ import (
 	"strings"
 )
 
-//
 //Load projects config file
 func loadConfig(name string) GProjectConfig {
 	path, err := filepath.Abs(name)
@@ -48,6 +47,7 @@ func loadScene(name string) GScene {
 	return scene
 }
 
+//Load a specific animation
 func loadAnimations(name string, project GProject) []GAnimation {
 	path, err := filepath.Abs(name)
 	if err != nil {

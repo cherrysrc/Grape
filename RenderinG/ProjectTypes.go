@@ -9,11 +9,13 @@ import (
 	"strings"
 )
 
+//Functions for GAnimation instances
 type iAnimation interface {
 	ParseFraming(string)
 	ParseBody(string)
 }
 
+//Functions for GProject instances
 type iProject interface {
 	GetCurrentScene() GScene
 	CalculateVertices() *imdraw.IMDraw
@@ -57,12 +59,15 @@ type GAnimation struct {
 	FunctionsParams map[string][]interface{}
 }
 
+//Project struct
+//Used for json parsing
 type GProjectConfig struct {
 	Name      string
 	StageSize []float64
 	Scenes    []string
 }
 
+//Actual project structure
 type GProject struct {
 	Name      string
 	StageSize []float64
@@ -74,6 +79,7 @@ type GProject struct {
 //Animation interface implementation
 //--------------------
 
+//Parse an animation framing (start and end)
 func (animation *GAnimation) ParseFraming(framing string) {
 	framing = framing[1 : len(framing)-1] //Strip enclosing parenthesis
 	parts := strings.Split(framing, " ")
@@ -85,6 +91,7 @@ func (animation *GAnimation) ParseFraming(framing string) {
 	animation.EndFrame = float64(end)
 }
 
+//Parse an animation body
 func (animation *GAnimation) ParseBody(block string, project GProject) {
 	block = block[1 : len(block)-1] //Strip enclosing curly brackets
 	lines := strings.Split(block, "\n")
@@ -150,6 +157,7 @@ func (project GProject) CalculateVertices() *imdraw.IMDraw {
 	return vertices
 }
 
+//Retrieve an object using its ID
 func (project GProject) GetObjectByID(id string) *GObject {
 	scene := project.GetCurrentScene()
 
@@ -167,6 +175,7 @@ func (project GProject) GetObjectByID(id string) *GObject {
 
 var letterBytes string = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
+//Generates a pseudo random id for objects that dont have one
 func (obj *GObject) GenerateID(n int) {
 	b := make([]byte, n)
 	for i := range b {
@@ -175,6 +184,7 @@ func (obj *GObject) GenerateID(n int) {
 	obj.ID = string(b)
 }
 
+//Calculates the geometric center of a shape
 func (obj *GObject) CalculateCenter() {
 	avgX := 0.0
 	avgY := 0.0
@@ -194,6 +204,7 @@ func (obj *GObject) CalculateCenter() {
 	}
 }
 
+//Sets a given GObjects position
 func (obj *GObject) Translate(targetP []float64) {
 	for i := range obj.Vertices {
 		offset := []float64{
