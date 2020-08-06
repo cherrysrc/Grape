@@ -6,18 +6,18 @@ var AnimFunctions = map[string]interface{}{
 
 //Go routine
 //Receives current frame via channel
-func TranslateAnim(anim *GAnimation, targetPos []float64, iChannel chan float64) {
+func TranslateAnim(anim *GAnimation, targetPos []float64, channel chan float64) {
 	originPos := anim.Target.GeometricCenter
 
 	duration := anim.EndFrame - anim.StartFrame
 
-	frame := <-iChannel
+	frame := <-channel
 	interp := (frame - anim.StartFrame) / duration
 	for frame < anim.EndFrame {
 
 		anim.Target.Translate(lerp2D(originPos, targetPos, interp))
 
-		frame = <-iChannel
+		frame = <-channel
 		interp = (frame - anim.StartFrame) / duration
 	}
 }
