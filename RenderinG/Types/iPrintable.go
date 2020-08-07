@@ -71,7 +71,8 @@ func (animation GAnimation) Print(depth int) {
 
 	printSpacer(depth + 1)
 	fmt.Print("FunctionsParams: ")
-	fmt.Println(animation.FunctionsParams)
+	fmt.Println(animation.Function)
+	fmt.Println(animation.Params)
 
 }
 

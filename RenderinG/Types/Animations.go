@@ -1,6 +1,8 @@
-package RenderinG
+package Types
 
-import "RenderinG/RenderinG/Types"
+import (
+	"strconv"
+)
 
 var AnimFunctions = map[string]interface{}{
 	"move_to": TranslateAnim,
@@ -11,10 +13,21 @@ var AnimFunctions = map[string]interface{}{
 //func TranslateAnim(anim *GAnimation, targetPos []float64, channel chan float64) {
 func TranslateAnim(params []interface{}) {
 	//Convert parameters
-	anim := params[0].(*Types.GAnimation)
-	targetPos := []float64{params[1].(float64), params[2].(float64)}
+	anim := params[0].(*GAnimation)
+
+	dx, err := strconv.ParseFloat(params[1].(string), 64)
+	if err != nil {
+		panic("Wrong argument type in animation")
+	}
+
+	dy, err := strconv.ParseFloat(params[2].(string), 64)
+	if err != nil {
+		panic("Wrong argument type in animation")
+	}
+
+	targetPos := []float64{dx, dy}
 	channel := params[3].(chan float64)
-	
+
 	//Save original position
 	originPos := anim.Target.GeometricCenter
 

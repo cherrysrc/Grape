@@ -21,6 +21,8 @@ func PixelMain(projectName string) {
 	}
 
 	for !win.Closed() {
+		project.Update()
+		
 		win.Clear(colornames.Skyblue)
 		project.Vertices.Draw(win)
 		win.Update()

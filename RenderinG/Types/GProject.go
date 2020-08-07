@@ -15,6 +15,11 @@ type iProject interface {
 	GetObjectByID(string, GProject) *GObject
 
 	GenerateAnimationHooks([]*GAnimation)
+	executeAnimation(*GAnimation)
+	checkHooks()
+	broadcastFrameToAnimations()
+
+	Update()
 
 	NextScene()
 	NextFrame()
@@ -40,6 +45,8 @@ type GProject struct {
 	frameIdx       float64
 	animationHooks map[float64]*GAnimation
 
+	animChannels []chan float64
+
 	Vertices *imdraw.IMDraw
 }
 
@@ -52,6 +59,7 @@ func (project *GProject) Init() {
 	project.frameIdx = 0
 	project.sceneIdx = 0
 	project.animationHooks = make(map[float64]*GAnimation)
+	project.animChannels = make([]chan float64, 0)
 }
 
 func (project *GProject) GetCurrentScene() GScene {
@@ -110,6 +118,39 @@ func (project *GProject) GenerateAnimationHooks(animations []*GAnimation) {
 	for i := range animations {
 		project.animationHooks[animations[i].StartFrame] = animations[i]
 	}
+}
+
+func (project *GProject) executeAnimation(animation *GAnimation) {
+	channel := make(chan float64)
+
+	aInterface := interface{}(animation)
+	params := make([]interface{}, 0)
+
+	params = append(params, aInterface)
+	params = append(params, animation.Params...)
+	params = append(params, channel)
+
+	project.animChannels = append(project.animChannels, channel)
+	go AnimFunctions[animation.Function].(func([]interface{}))(params)
+}
+
+func (project *GProject) checkHooks() {
+	if animation, exists := project.animationHooks[project.frameIdx]; exists {
+		project.executeAnimation(animation)
+	}
+}
+
+func (project *GProject) broadcastFrameToAnimations() {
+	for i := range project.animChannels {
+		project.animChannels[i] <- project.frameIdx
+		project.CalculateVertices()
+	}
+}
+
+func (project *GProject) Update() {
+	project.checkHooks()
+	project.broadcastFrameToAnimations()
+	project.NextFrame()
 }
 
 func (project *GProject) NextScene() {
