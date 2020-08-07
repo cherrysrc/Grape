@@ -24,8 +24,8 @@ func TranslateAnim(params []interface{}) {
 	}
 
 	targetPos := []float64{dx, dy}
-	anim := params[3].(*GAnimation)
-	channel := params[4].(chan float64)
+	anim := params[2].(*GAnimation)
+	channel := params[3].(chan float64)
 
 	//Save original position
 	originPos := anim.Target.GeometricCenter
