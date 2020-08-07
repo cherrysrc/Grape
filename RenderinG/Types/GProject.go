@@ -114,32 +114,42 @@ func (project GProject) GetObjectByID(id string) *GObject {
 	panic("Unknown ID specified in Animation")
 }
 
+//Fills the projects map of points in time and corresponding animations
 func (project *GProject) GenerateAnimationHooks(animations []*GAnimation) {
 	for i := range animations {
 		project.animationHooks[animations[i].StartFrame] = animations[i]
 	}
 }
 
+//Runs an animation
+//Adds the animation and a channel to the parameters
+//Appends the animation first, then the channel
 func (project *GProject) executeAnimation(animation *GAnimation) {
 	channel := make(chan float64)
 
 	aInterface := interface{}(animation)
-	params := make([]interface{}, 0)
+	params := animation.Params
 
 	params = append(params, aInterface)
-	params = append(params, animation.Params...)
 	params = append(params, channel)
 
+	//Remember channel
 	project.animChannels = append(project.animChannels, channel)
+	//Call function as goroutine
 	go AnimFunctions[animation.Function].(func([]interface{}))(params)
 }
 
+//Checks if theres an animation supposed to start at the current frame
+//If there is, it calls executeAnimation to deal with further handling
+//Called each frame through Update()
 func (project *GProject) checkHooks() {
 	if animation, exists := project.animationHooks[project.frameIdx]; exists {
 		project.executeAnimation(animation)
 	}
 }
 
+//Loops over every channel of the project
+//Sends the current frame trough the channels
 func (project *GProject) broadcastFrameToAnimations() {
 	for i := range project.animChannels {
 		project.animChannels[i] <- project.frameIdx
@@ -147,18 +157,21 @@ func (project *GProject) broadcastFrameToAnimations() {
 	}
 }
 
+//General function combining all actions that need to performed done every frame
 func (project *GProject) Update() {
 	project.checkHooks()
 	project.broadcastFrameToAnimations()
 	project.NextFrame()
 }
 
+//Switches to the next scene
 func (project *GProject) NextScene() {
 	project.sceneIdx++
 	//Switching to a new scene requires recalculation of vertices
 	project.CalculateVertices()
 }
 
+//Switches to the next frame
 func (project *GProject) NextFrame() {
 	project.frameIdx++
 }

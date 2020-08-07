@@ -8,25 +8,24 @@ var AnimFunctions = map[string]interface{}{
 	"move_to": TranslateAnim,
 }
 
-//Go routine
-//Receives current frame via channel
-//func TranslateAnim(anim *GAnimation, targetPos []float64, channel chan float64) {
+//Performs a translation animation
+//(anim *GAnimation, channel chan float64, targetPos []float64)
 func TranslateAnim(params []interface{}) {
 	//Convert parameters
-	anim := params[0].(*GAnimation)
 
-	dx, err := strconv.ParseFloat(params[1].(string), 64)
+	dx, err := strconv.ParseFloat(params[0].(string), 64)
 	if err != nil {
 		panic("Wrong argument type in animation")
 	}
 
-	dy, err := strconv.ParseFloat(params[2].(string), 64)
+	dy, err := strconv.ParseFloat(params[1].(string), 64)
 	if err != nil {
 		panic("Wrong argument type in animation")
 	}
 
 	targetPos := []float64{dx, dy}
-	channel := params[3].(chan float64)
+	anim := params[3].(*GAnimation)
+	channel := params[4].(chan float64)
 
 	//Save original position
 	originPos := anim.Target.GeometricCenter
