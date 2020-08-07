@@ -49,7 +49,7 @@ func loadScene(name string) Types.GScene {
 }
 
 //Load a specific animation
-func loadAnimations(name string, project Types.GProject) []Types.GAnimation {
+func loadAnimations(name string, project Types.GProject) []*Types.GAnimation {
 	path, err := filepath.Abs(name)
 	if err != nil {
 		panic(err)
@@ -66,7 +66,7 @@ func loadAnimations(name string, project Types.GProject) []Types.GAnimation {
 	framingRegex, _ := regexp.Compile("\\((.*?)\\)")
 	bodyRegex, _ := regexp.Compile("{([^}]*)}")
 
-	var animations []Types.GAnimation
+	var animations []*Types.GAnimation
 
 	for i := 0; i < len(animationBlocks)-1; i++ {
 		framing := framingRegex.FindString(animationBlocks[i])
@@ -77,7 +77,7 @@ func loadAnimations(name string, project Types.GProject) []Types.GAnimation {
 		anim.ParseFraming(framing)
 		anim.ParseBody(body, project)
 
-		animations = append(animations, anim)
+		animations = append(animations, &anim)
 	}
 
 	return animations
@@ -90,7 +90,7 @@ func LoadProject(name string) *Types.GProject {
 
 	project.Name = projectConfig.Name
 	project.StageSize = projectConfig.StageSize
-	project.SceneIdx = 0
+	project.Init()
 
 	for i := range projectConfig.Scenes {
 		scene := loadScene("./Projects/" + name + "/" + projectConfig.Scenes[i] + ".json")
@@ -110,7 +110,10 @@ func LoadProject(name string) *Types.GProject {
 
 	for i := range project.Scenes {
 		project.Scenes[i].Animations = loadAnimations("./Projects/"+name+"/"+projectConfig.Scenes[i]+".anim", project)
+		project.GenerateAnimationHooks(project.Scenes[i].Animations)
 	}
+
+	project.CalculateVertices()
 
 	return &project
 }

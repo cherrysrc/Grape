@@ -7,9 +7,17 @@ import (
 
 //Functions for GProject instances
 type iProject interface {
-	GetCurrentScene() GScene
-	CalculateVertices() *imdraw.IMDraw
+	Init()
+	GetCurrentScene() *GScene
+	SetCurrentScene(int)
+
+	CalculateVertices()
 	GetObjectByID(string, GProject) *GObject
+
+	GenerateAnimationHooks([]*GAnimation)
+
+	NextScene()
+	NextFrame()
 }
 
 //Project struct
@@ -22,10 +30,17 @@ type GProjectConfig struct {
 
 //Actual project structure
 type GProject struct {
-	Name      string
+	Name string
+
 	StageSize []float64
-	Scenes    []GScene
-	SceneIdx  int
+
+	Scenes   []GScene
+	sceneIdx int
+
+	frameIdx       float64
+	animationHooks map[float64]*GAnimation
+
+	Vertices *imdraw.IMDraw
 }
 
 //--------------------
@@ -33,12 +48,22 @@ type GProject struct {
 //--------------------
 
 //iProject GetCurrentScene implementation
-func (project GProject) GetCurrentScene() GScene {
-	return project.Scenes[project.SceneIdx]
+func (project *GProject) Init() {
+	project.frameIdx = 0
+	project.sceneIdx = 0
+	project.animationHooks = make(map[float64]*GAnimation)
+}
+
+func (project *GProject) GetCurrentScene() GScene {
+	return project.Scenes[project.sceneIdx]
+}
+
+func (project *GProject) SetCurrentScene(idx int) {
+	project.sceneIdx = idx
 }
 
 //iProject CalculateVertices implementation
-func (project GProject) CalculateVertices() *imdraw.IMDraw {
+func (project *GProject) CalculateVertices() {
 	vertices := imdraw.New(nil)
 	scene := project.GetCurrentScene()
 
@@ -66,7 +91,7 @@ func (project GProject) CalculateVertices() *imdraw.IMDraw {
 		vertices.Polygon(0)
 	}
 
-	return vertices
+	project.Vertices = vertices
 }
 
 //Retrieve an object using its ID
@@ -79,4 +104,20 @@ func (project GProject) GetObjectByID(id string) *GObject {
 		}
 	}
 	panic("Unknown ID specified in Animation")
+}
+
+func (project *GProject) GenerateAnimationHooks(animations []*GAnimation) {
+	for i := range animations {
+		project.animationHooks[animations[i].StartFrame] = animations[i]
+	}
+}
+
+func (project *GProject) NextScene() {
+	project.sceneIdx++
+	//Switching to a new scene requires recalculation of vertices
+	project.CalculateVertices()
+}
+
+func (project *GProject) NextFrame() {
+	project.frameIdx++
 }

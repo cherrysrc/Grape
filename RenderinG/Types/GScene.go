@@ -5,5 +5,5 @@ package Types
 type GScene struct {
 	Frames     int
 	Objects    []GObject
-	Animations []GAnimation
+	Animations []*GAnimation
 }

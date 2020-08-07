@@ -26,6 +26,10 @@ func (project GProject) Print(depth int) {
 	fmt.Printf("Stage size: %.2f by %.2f\n", project.StageSize[0], project.StageSize[1])
 
 	printSpacer(depth)
+	fmt.Println("Animation Hooks: ")
+	fmt.Println(project.animationHooks)
+
+	printSpacer(depth)
 	for i := range project.Scenes {
 		project.Scenes[i].Print(depth + 1)
 	}

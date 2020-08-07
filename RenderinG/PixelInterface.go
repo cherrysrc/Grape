@@ -10,8 +10,6 @@ func PixelMain(projectName string) {
 	project := LoadProject(projectName)
 	project.Print(0)
 
-	vertices := project.CalculateVertices()
-
 	cfg := pixelgl.WindowConfig{
 		Title:  projectName,
 		Bounds: pixel.R(0, 0, 800, 600),
@@ -24,7 +22,7 @@ func PixelMain(projectName string) {
 
 	for !win.Closed() {
 		win.Clear(colornames.Skyblue)
-		vertices.Draw(win)
+		project.Vertices.Draw(win)
 		win.Update()
 	}
 }
