@@ -36,6 +36,7 @@ func TranslateAnim(params []interface{}) {
 	//Calculate current interpolation progress based on the current frame received through the channel
 	interp := (frame - anim.StartFrame) / duration
 	for frame < anim.EndFrame {
+		channel <- 1.0
 		//Linearly interpolate between target and original position
 		anim.Target.Translate(lerp2D(originPos, targetPos, interp))
 
@@ -43,6 +44,7 @@ func TranslateAnim(params []interface{}) {
 		frame = <-channel
 		interp = (frame - anim.StartFrame) / duration
 	}
+	channel <- 0.0
 }
 
 func lerp(v0 float64, v1 float64, t float64) float64 {

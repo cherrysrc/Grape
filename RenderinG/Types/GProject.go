@@ -153,6 +153,13 @@ func (project *GProject) checkHooks() {
 func (project *GProject) broadcastFrameToAnimations() {
 	for i := range project.animChannels {
 		project.animChannels[i] <- project.frameIdx
+
+		status := <-project.animChannels[i]
+		if status == 0.0 {
+			//Remove channel, its dead
+			project.animChannels = removeChannel(project.animChannels, i)
+		}
+
 		project.CalculateVertices()
 	}
 }
