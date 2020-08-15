@@ -13,11 +13,11 @@ type iAnimation interface {
 
 //Animation information
 type GAnimation struct {
-	StartFrame float64
-	EndFrame   float64
-	Target     *GObject
-	Function   string
-	Params     []interface{}
+	StartFrame    float64
+	EndFrame      float64
+	Target *GObject
+	Function string
+	Params []interface{}
 }
 
 //--------------------
@@ -37,25 +37,21 @@ func (animation *GAnimation) ParseFraming(framing string) {
 }
 
 //Parse an animation body
-func (animation *GAnimation) ParseBody(block string, project GProject) {
-	block = block[1 : len(block)-1] //Strip enclosing curly brackets
-	lines := strings.Split(block, "\n")
+func (animation *GAnimation) ParseLine(line string, project GProject) {
+	if line == "" || strings.Contains(line, "#") {
+		//Ignore empty lines, or lines containing #
+		return
+	}
 
-	for i := range lines {
-		if lines[i] == "" || strings.Contains(lines[i], "#") {
-			//Ignore empty lines, or lines containing #
-			continue
-		}
+	elements := strings.Split(line, " ")
 
-		elements := strings.Split(lines[i], " ")
+	animation.Target = project.GetObjectByID(elements[0])
 
-		animation.Target = project.GetObjectByID(elements[0])
+	animation.Function = elements[1]
 
-		animation.Function = elements[1]
-		animation.Params = make([]interface{}, 0)
+	animation.Params = make([]interface{}, len(elements)-2)
 
-		for j := 2; j < len(elements); j++ {
-			animation.Params = append(animation.Params, elements[j])
-		}
+	for j := 2; j < len(elements); j++ {
+		animation.Params[j-2] = elements[j]
 	}
 }

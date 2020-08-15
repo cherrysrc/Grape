@@ -72,12 +72,22 @@ func loadAnimations(name string, project Structures.GProject) []*Structures.GAni
 		framing := framingRegex.FindString(animationBlocks[i])
 		body := bodyRegex.FindString(animationBlocks[i])
 
-		var anim Structures.GAnimation
+		reducedBody := body[1:len(body)-1]
+		lines := strings.Split(reducedBody, "\n")
 
-		anim.ParseFraming(framing)
-		anim.ParseBody(body, project)
+		for i := range lines{
+			var anim Structures.GAnimation
 
-		animations = append(animations, &anim)
+			anim.ParseFraming(framing)
+
+			anim.ParseLine(lines[i], project)
+
+			if anim.Target == nil{
+				continue
+			}
+
+			animations = append(animations, &anim)
+		}
 	}
 
 	return animations

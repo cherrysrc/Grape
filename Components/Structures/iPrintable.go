@@ -27,9 +27,9 @@ func (project GProject) Print(depth int) {
 	printSpacer(depth)
 	fmt.Printf("Stage size: %.2f by %.2f\n", project.StageSize[0], project.StageSize[1])
 
-	printSpacer(depth)
-	fmt.Println("Animation Hooks: ")
-	fmt.Println(project.animationHooks)
+	//printSpacer(depth)
+	//fmt.Println("Animation Hooks: ")
+	//fmt.Println(project.animationHooks)
 
 	printSpacer(depth)
 	for i := range project.Scenes {
@@ -69,13 +69,7 @@ func (animation GAnimation) Print(depth int) {
 	fmt.Printf("GAnimation %.2f to %.2f\n", animation.StartFrame, animation.EndFrame)
 
 	printSpacer(depth + 1)
-	fmt.Printf("Target: %s\n", animation.Target.ID)
-
-	printSpacer(depth + 1)
-	fmt.Print("FunctionsParams: ")
-	fmt.Println(animation.Function)
-	fmt.Println(animation.Params)
-
+	fmt.Printf("Target: %s, Function: %s", animation.Target.ID, animation.Function)
 }
 
 func (scene GScene) Print(depth int) {

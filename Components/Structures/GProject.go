@@ -129,6 +129,7 @@ func (project *GProject) executeAnimation(animation *GAnimation) {
 	channel := make(chan float64)
 
 	aInterface := interface{}(animation)
+
 	params := animation.Params
 
 	params = append(params, aInterface)
