@@ -5,4 +5,5 @@
 #moves a given object to a given location
 #in the given time
 RectangleA move_to 400 100
+ShapeB move_to 500 500
 };

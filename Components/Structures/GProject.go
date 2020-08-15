@@ -44,7 +44,7 @@ type GProject struct {
 	sceneIdx int
 
 	frameIdx       float64
-	animationHooks map[float64]*GAnimation
+	animationHooks map[float64][]*GAnimation
 
 	animChannels []chan float64
 
@@ -59,7 +59,7 @@ type GProject struct {
 func (project *GProject) Init() {
 	project.frameIdx = 0
 	project.sceneIdx = 0
-	project.animationHooks = make(map[float64]*GAnimation)
+	project.animationHooks = make(map[float64][]*GAnimation, 0)
 	project.animChannels = make([]chan float64, 0)
 }
 
@@ -118,7 +118,7 @@ func (project GProject) GetObjectByID(id string) *GObject {
 //Fills the projects map of points in time and corresponding animations
 func (project *GProject) GenerateAnimationHooks(animations []*GAnimation) {
 	for i := range animations {
-		project.animationHooks[animations[i].StartFrame] = animations[i]
+		project.animationHooks[animations[i].StartFrame] = append(project.animationHooks[animations[i].StartFrame], animations[i])
 	}
 }
 
@@ -145,15 +145,17 @@ func (project *GProject) executeAnimation(animation *GAnimation) {
 //If there is, it calls executeAnimation to deal with further handling
 //Called each frame through Update()
 func (project *GProject) checkHooks() {
-	if animation, exists := project.animationHooks[project.frameIdx]; exists {
-		project.executeAnimation(animation)
+	if animations, exists := project.animationHooks[project.frameIdx]; exists {
+		for i := range animations{
+			project.executeAnimation(animations[i])
+		}
 	}
 }
 
 //Loops over every channel of the project
 //Sends the current frame trough the channels
 func (project *GProject) broadcastFrameToAnimations() {
-	for i := range project.animChannels {
+	for i := len(project.animChannels) - 1; i >= 0; i--{
 		project.animChannels[i] <- project.frameIdx
 
 		status := <-project.animChannels[i]
