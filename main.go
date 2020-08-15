@@ -1,12 +1,12 @@
 package main
 
 import (
-	"RenderinG/RenderinG"
+	"github.com/cherrysrc/Grape/Components/Interface"
 	"github.com/faiface/pixel/pixelgl"
 )
 
 func main() {
 	pixelgl.Run(func() {
-		RenderinG.PixelMain("TestP")
+		Interface.PixelMain("TestP")
 	})
 }

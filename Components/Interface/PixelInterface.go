@@ -1,4 +1,4 @@
-package RenderinG
+package Interface
 
 import (
 	"github.com/faiface/pixel"

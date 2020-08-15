@@ -1,6 +1,7 @@
-package Types
+package Structures
 
 import (
+	"github.com/cherrysrc/Grape/Components/Utils"
 	"github.com/faiface/pixel"
 	"github.com/faiface/pixel/imdraw"
 )
@@ -157,7 +158,7 @@ func (project *GProject) broadcastFrameToAnimations() {
 		status := <-project.animChannels[i]
 		if status == 0.0 {
 			//Remove channel, its dead
-			project.animChannels = removeChannel(project.animChannels, i)
+			project.animChannels = Utils.RemoveChannel(project.animChannels, i)
 		}
 
 		project.CalculateVertices()

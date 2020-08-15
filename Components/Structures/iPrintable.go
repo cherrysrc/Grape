@@ -1,6 +1,8 @@
-package Types
+package Structures
 
-import "fmt"
+import (
+	"fmt"
+)
 
 //Printing of Animation relevant objects
 //Uses indentation

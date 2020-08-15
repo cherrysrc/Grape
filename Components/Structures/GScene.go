@@ -1,4 +1,4 @@
-package Types
+package Structures
 
 //Scene Configuration
 //Maps to JSON

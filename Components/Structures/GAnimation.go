@@ -1,4 +1,4 @@
-package Types
+package Structures
 
 import (
 	"strconv"

@@ -1,8 +1,8 @@
-package RenderinG
+package Interface
 
 import (
-	"RenderinG/RenderinG/Types"
 	"encoding/json"
+	"github.com/cherrysrc/Grape/Components/Structures"
 	"io/ioutil"
 	"path/filepath"
 	"regexp"
@@ -10,7 +10,7 @@ import (
 )
 
 //Load projects config file
-func loadConfig(name string) Types.GProjectConfig {
+func loadConfig(name string) Structures.GProjectConfig {
 	path, err := filepath.Abs(name)
 	if err != nil {
 		panic(err)
@@ -21,7 +21,7 @@ func loadConfig(name string) Types.GProjectConfig {
 		panic(err)
 	}
 
-	var projectConfig Types.GProjectConfig
+	var projectConfig Structures.GProjectConfig
 	err = json.Unmarshal(bytes, &projectConfig)
 	if err != nil {
 		panic(err)
@@ -31,7 +31,7 @@ func loadConfig(name string) Types.GProjectConfig {
 }
 
 //load specific scene
-func loadScene(name string) Types.GScene {
+func loadScene(name string) Structures.GScene {
 	path, err := filepath.Abs(name)
 	if err != nil {
 		panic(err)
@@ -42,14 +42,14 @@ func loadScene(name string) Types.GScene {
 		panic(err)
 	}
 
-	var scene Types.GScene
+	var scene Structures.GScene
 	err = json.Unmarshal(bytes, &scene)
 
 	return scene
 }
 
 //Load a specific animation
-func loadAnimations(name string, project Types.GProject) []*Types.GAnimation {
+func loadAnimations(name string, project Structures.GProject) []*Structures.GAnimation {
 	path, err := filepath.Abs(name)
 	if err != nil {
 		panic(err)
@@ -66,13 +66,13 @@ func loadAnimations(name string, project Types.GProject) []*Types.GAnimation {
 	framingRegex, _ := regexp.Compile("\\((.*?)\\)")
 	bodyRegex, _ := regexp.Compile("{([^}]*)}")
 
-	var animations []*Types.GAnimation
+	var animations []*Structures.GAnimation
 
 	for i := 0; i < len(animationBlocks)-1; i++ {
 		framing := framingRegex.FindString(animationBlocks[i])
 		body := bodyRegex.FindString(animationBlocks[i])
 
-		var anim Types.GAnimation
+		var anim Structures.GAnimation
 
 		anim.ParseFraming(framing)
 		anim.ParseBody(body, project)
@@ -84,9 +84,9 @@ func loadAnimations(name string, project Types.GProject) []*Types.GAnimation {
 }
 
 //load a given project
-func LoadProject(name string) *Types.GProject {
+func LoadProject(name string) *Structures.GProject {
 	projectConfig := loadConfig("./Projects/" + name + "/config.json")
-	var project Types.GProject
+	var project Structures.GProject
 
 	project.Name = projectConfig.Name
 	project.StageSize = projectConfig.StageSize
