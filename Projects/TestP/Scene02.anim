@@ -1,1 +1,6 @@
- 
+#relative to scene start
+(100 150)
+{
+RectB move_to 400 400
+RectC rotate_to 180
+};

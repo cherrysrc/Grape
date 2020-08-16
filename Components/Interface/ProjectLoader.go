@@ -107,6 +107,7 @@ func LoadProject(name string) *Structures.GProject {
 	project.Name = projectConfig.Name
 	project.StageSize = projectConfig.StageSize
 	project.Init()
+	project.PreProcess()
 
 	for i := range projectConfig.Scenes {
 		scene := loadScene("./Projects/" + name + "/" + projectConfig.Scenes[i] + ".json")
@@ -139,11 +140,16 @@ func LoadProject(name string) *Structures.GProject {
 		project.Scenes = append(project.Scenes, scene)
 	}
 
+	sceneOffset := 0.0
 	for i := range project.Scenes {
+
 		project.Scenes[i].Animations = loadAnimations("./Projects/"+name+"/"+projectConfig.Scenes[i]+".anim", project)
-		project.GenerateAnimationHooks(project.Scenes[i].Animations)
+		project.GenerateAnimationHooks(project.Scenes[i].Animations, sceneOffset)
+
+		sceneOffset += project.Scenes[i].Frames
 	}
 
+	project.PostProcess()
 	project.CalculateVertices()
 
 	return &project

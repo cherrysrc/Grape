@@ -26,11 +26,10 @@ func PixelMain(projectName string) {
 
 	atlas := text.NewAtlas(basicfont.Face7x13, text.ASCII)
 	txt := text.New(pixel.V(0, 0), atlas)
-	fmt.Fprintln(txt, "Hello")
-	
+
 	frame := 0
 	for !win.Closed() {
-		win.Clear(colornames.Skyblue)
+		win.Clear(colornames.Black)
 		txt.Clear()
 
 		fmt.Fprintln(txt, frame)

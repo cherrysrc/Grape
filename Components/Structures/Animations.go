@@ -6,8 +6,9 @@ import (
 )
 
 var AnimFunctions = map[string]interface{}{
-	"move_to":   TranslateAnim,
-	"rotate_to": RotateAnim,
+	"move_to":       TranslateAnim,
+	"rotate_to":     RotateAnim,
+	"scene_transit": SceneTransit,
 }
 
 //Performs a translation animation
@@ -81,6 +82,16 @@ func RotateAnim(params []interface{}) {
 	}
 	interp = 1
 	anim.Target.Rotate(lerp(originRotation, targetAngle, interp))
+	channel <- 0.0
+}
+
+func SceneTransit(params []interface{}) {
+	project := params[0].(*GProject)
+	channel := params[2].(chan float64)
+	_ = <-channel
+
+	project.NextScene()
+
 	channel <- 0.0
 }
 

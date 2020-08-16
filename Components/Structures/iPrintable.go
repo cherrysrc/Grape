@@ -77,7 +77,7 @@ func (scene GScene) Print(depth int) {
 	fmt.Printf("Scene\n")
 
 	printSpacer(depth + 1)
-	fmt.Printf("Frames: %d\n", scene.Frames)
+	fmt.Printf("Frames: %f\n", scene.Frames)
 
 	printSpacer(depth + 1)
 	fmt.Println("Objects:")

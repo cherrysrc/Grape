@@ -1,6 +1,7 @@
 package Structures
 
 import (
+	"fmt"
 	"github.com/cherrysrc/Grape/Components/Utils"
 	"github.com/faiface/pixel"
 	"github.com/faiface/pixel/imdraw"
@@ -16,7 +17,7 @@ type iProject interface {
 	CalculateVertices()
 	GetObjectByID(string, GProject) *GObject
 
-	GenerateAnimationHooks([]*GAnimation)
+	GenerateAnimationHooks([]*GAnimation, float64)
 	executeAnimation(*GAnimation)
 	checkHooks()
 	broadcastFrameToAnimations()
@@ -25,6 +26,9 @@ type iProject interface {
 
 	NextScene()
 	NextFrame()
+
+	PreProcess()
+	PostProcess()
 }
 
 //Project struct
@@ -64,8 +68,11 @@ func (project *GProject) Init() {
 	project.animChannels = make([]chan float64, 0)
 }
 
-func (project *GProject) GetCurrentScene() GScene {
-	return project.Scenes[project.sceneIdx]
+func (project *GProject) GetCurrentScene() *GScene {
+	if project.sceneIdx >= len(project.Scenes) {
+		return nil
+	}
+	return &project.Scenes[project.sceneIdx]
 }
 
 func (project *GProject) SetCurrentScene(idx int) {
@@ -78,6 +85,11 @@ func (project *GProject) SetCurrentScene(idx int) {
 func (project *GProject) CalculateVertices() {
 	vertices := imdraw.New(nil)
 	scene := project.GetCurrentScene()
+
+	if scene == nil {
+		project.Vertices = vertices
+		return
+	}
 
 	for i := range scene.Objects {
 
@@ -106,7 +118,7 @@ func (project *GProject) CalculateVertices() {
 			vertices.Push(pixel.V(scene.Objects[i].GeometricCenter[0]+rotatedX, scene.Objects[i].GeometricCenter[1]+rotatedY))
 		}
 		//Finish up shape
-		vertices.Polygon(0)
+		vertices.Polygon(1)
 	}
 
 	project.Vertices = vertices
@@ -115,20 +127,21 @@ func (project *GProject) CalculateVertices() {
 //Retrieve an object using its ID
 //Returns a pointer
 func (project GProject) GetObjectByID(id string) *GObject {
-	scene := project.GetCurrentScene()
+	for i := range project.Scenes {
+		for j := range project.Scenes[i].Objects {
 
-	for i := range scene.Objects {
-		if scene.Objects[i].ID == id {
-			return &scene.Objects[i]
+			if project.Scenes[i].Objects[j].ID == id {
+				return &project.Scenes[i].Objects[j]
+			}
 		}
 	}
 	panic("Unknown ID specified in Animation")
 }
 
 //Fills the projects map of points in time and corresponding animations
-func (project *GProject) GenerateAnimationHooks(animations []*GAnimation) {
+func (project *GProject) GenerateAnimationHooks(animations []*GAnimation, sceneOffset float64) {
 	for i := range animations {
-		project.animationHooks[animations[i].StartFrame] = append(project.animationHooks[animations[i].StartFrame], animations[i])
+		project.animationHooks[sceneOffset+animations[i].StartFrame] = append(project.animationHooks[sceneOffset+animations[i].StartFrame], animations[i])
 	}
 }
 
@@ -195,4 +208,29 @@ func (project *GProject) NextScene() {
 //Switches to the next frame
 func (project *GProject) NextFrame() {
 	project.frameIdx++
+}
+
+//Called before any important file parsing happens
+func (project *GProject) PreProcess() {
+	//Todo vertex template support
+}
+
+func (project *GProject) PostProcess() {
+	//Generate scene transitions
+	frameOffset := 0.0
+	for i := range project.Scenes {
+
+		var anim GAnimation
+
+		anim.StartFrame = frameOffset + project.Scenes[i].Frames
+		anim.EndFrame = anim.StartFrame + 1
+
+		anim.Function = "scene_transit"
+		anim.Params = []interface{}{project}
+
+		project.animationHooks[anim.StartFrame] = append(project.animationHooks[anim.StartFrame], &anim)
+
+		frameOffset += project.Scenes[i].Frames
+	}
+	fmt.Println(project.animationHooks)
 }
