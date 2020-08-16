@@ -5,7 +5,8 @@ import (
 )
 
 var AnimFunctions = map[string]interface{}{
-	"move_to": TranslateAnim,
+	"move_to":   TranslateAnim,
+	"rotate_to": RotateAnim,
 }
 
 //Performs a translation animation
@@ -39,6 +40,37 @@ func TranslateAnim(params []interface{}) {
 		channel <- 1.0
 		//Linearly interpolate between target and original position
 		anim.Target.Translate(lerp2D(originPos, targetPos, interp))
+
+		//Update frame and interpolation progress
+		frame = <-channel
+		interp = (frame - anim.StartFrame) / duration
+	}
+	channel <- 0.0
+}
+
+//Performs a rotation animation
+//RotateAnim(angle float64, animation *GAnimation, channel chan float64)
+func RotateAnim(params []interface{}) {
+	targetAngle, err := strconv.ParseFloat(params[0].(string), 64)
+	if err != nil {
+		panic("Wrong argument type in animation")
+	}
+
+	anim := params[1].(*GAnimation)
+	channel := params[2].(chan float64)
+
+	//Save original rotation
+	originRotation := anim.Target.Rotation
+
+	duration := anim.EndFrame - anim.StartFrame
+
+	frame := <-channel
+	//Calculate current interpolation progress based on the current frame received through the channel
+	interp := (frame - anim.StartFrame) / duration
+	for frame < anim.EndFrame {
+		channel <- 1.0
+		//Linearly interpolate between target and original rotation
+		anim.Target.Rotate(lerp(originRotation, targetAngle, interp))
 
 		//Update frame and interpolation progress
 		frame = <-channel
