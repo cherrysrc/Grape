@@ -9,3 +9,31 @@ RectangleA rotate_to 180
 ShapeB move_to 500 500
 ShapeB rotate_to 180
 };
+(150 250)
+{
+RectangleA move_to 100 400
+RectangleA rotate_to 270
+ShapeB move_to 400 100
+ShapeB rotate_to 90
+};
+(250 350)
+{
+RectangleA move_to 100 100
+RectangleA rotate_to 90
+ShapeB move_to 400 500
+ShapeB rotate_to 270
+};
+(350 450)
+{
+RectangleA move_to 400 300
+RectangleA rotate_to 45
+ShapeB move_to 100 100
+ShapeB rotate_to 45
+};
+(450 600)
+{
+RectangleA move_to 700 100
+RectangleA rotate_to 0
+ShapeB move_to 400 300
+ShapeB rotate_to 0
+};
