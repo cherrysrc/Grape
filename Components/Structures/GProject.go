@@ -1,7 +1,6 @@
 package Structures
 
 import (
-	"fmt"
 	"github.com/cherrysrc/Grape/Components/Utils"
 	"github.com/faiface/pixel"
 	"github.com/faiface/pixel/imdraw"
@@ -232,5 +231,4 @@ func (project *GProject) PostProcess() {
 
 		frameOffset += project.Scenes[i].Frames
 	}
-	fmt.Println(project.animationHooks)
 }
