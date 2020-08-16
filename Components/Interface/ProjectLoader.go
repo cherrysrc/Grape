@@ -2,6 +2,7 @@ package Interface
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/cherrysrc/Grape/Components/Structures"
 	"io/ioutil"
 	"path/filepath"
@@ -49,6 +50,9 @@ func loadScene(name string) Structures.GScene {
 }
 
 //Load a specific animation
+//Uses regex to parse .anim files
+//Framing refers to the start and end frame of the animation
+//Body refers to the actions to be performed in this time frame
 func loadAnimations(name string, project Structures.GProject) []*Structures.GAnimation {
 	path, err := filepath.Abs(name)
 	if err != nil {
@@ -93,7 +97,9 @@ func loadAnimations(name string, project Structures.GProject) []*Structures.GAni
 	return animations
 }
 
-//load a given project
+//Loads a project specified by its name
+//Displays warnings in case of partly incompletely specified objects
+//Generates animation hooks
 func LoadProject(name string) *Structures.GProject {
 	projectConfig := loadConfig("./Projects/" + name + "/config.json")
 	var project Structures.GProject
@@ -108,7 +114,25 @@ func LoadProject(name string) *Structures.GProject {
 		for i := range scene.Objects {
 			//Generate ID if necessary
 			if scene.Objects[i].ID == "" {
+				fmt.Printf("[Warning] Object doesn't have an ID, generating a random one.\n")
 				scene.Objects[i].GenerateID(5)
+			}
+
+			//Central position is missing, just assuming zero
+			if len(scene.Objects[i].GeometricCenter) == 0 {
+				fmt.Printf("[Warning] Object %s doesn't have a center specified, assuming zero.\n", scene.Objects[i].ID)
+				scene.Objects[i].GeometricCenter = []float64{0, 0}
+			}
+
+			//No vertices found, spit out warning
+			if len(scene.Objects[i].Vertices) == 0 {
+				fmt.Printf("[Warning] Object %s has no vertices.", scene.Objects[i].ID)
+			}
+
+			//Objects having no color specified default to white
+			if len(scene.Objects[i].Colors) == 0 {
+				fmt.Printf("[Warning] Object %s has no colors, assuming white.", scene.Objects[i].ID)
+				scene.Objects[i].Colors[0] = []float64{1, 1, 1, 1}
 			}
 		}
 

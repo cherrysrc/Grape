@@ -73,6 +73,8 @@ func (project *GProject) SetCurrentScene(idx int) {
 }
 
 //iProject CalculateVertices implementation
+//Transformations like translation and rotation arent stored explicitly
+//They're only calculated in pixel vertices
 func (project *GProject) CalculateVertices() {
 	vertices := imdraw.New(nil)
 	scene := project.GetCurrentScene()
@@ -111,6 +113,7 @@ func (project *GProject) CalculateVertices() {
 }
 
 //Retrieve an object using its ID
+//Returns a pointer
 func (project GProject) GetObjectByID(id string) *GObject {
 	scene := project.GetCurrentScene()
 

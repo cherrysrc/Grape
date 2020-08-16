@@ -6,6 +6,7 @@ import (
 	"golang.org/x/image/colornames"
 )
 
+//Main loop for pixel engine
 func PixelMain(projectName string) {
 	project := LoadProject(projectName)
 	project.Print(0)
@@ -22,7 +23,7 @@ func PixelMain(projectName string) {
 
 	for !win.Closed() {
 		project.Update()
-		
+
 		win.Clear(colornames.Skyblue)
 		project.Vertices.Draw(win)
 		win.Update()

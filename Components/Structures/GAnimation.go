@@ -13,11 +13,11 @@ type iAnimation interface {
 
 //Animation information
 type GAnimation struct {
-	StartFrame    float64
-	EndFrame      float64
-	Target *GObject
-	Function string
-	Params []interface{}
+	StartFrame float64
+	EndFrame   float64
+	Target     *GObject
+	Function   string
+	Params     []interface{}
 }
 
 //--------------------
@@ -36,7 +36,7 @@ func (animation *GAnimation) ParseFraming(framing string) {
 	animation.EndFrame = float64(end)
 }
 
-//Parse an animation body
+//Parse a line of the animation segments body
 func (animation *GAnimation) ParseLine(line string, project GProject) {
 	if line == "" || strings.Contains(line, "#") {
 		//Ignore empty lines, or lines containing #
