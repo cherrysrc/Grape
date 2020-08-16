@@ -1,6 +1,7 @@
 package Structures
 
 import (
+	"math"
 	"strconv"
 )
 
@@ -52,6 +53,8 @@ func TranslateAnim(params []interface{}) {
 //RotateAnim(angle float64, animation *GAnimation, channel chan float64)
 func RotateAnim(params []interface{}) {
 	targetAngle, err := strconv.ParseFloat(params[0].(string), 64)
+	//Convert to radians
+	targetAngle = targetAngle * math.Pi / 180
 	if err != nil {
 		panic("Wrong argument type in animation")
 	}
@@ -76,6 +79,8 @@ func RotateAnim(params []interface{}) {
 		frame = <-channel
 		interp = (frame - anim.StartFrame) / duration
 	}
+	interp = 1
+	anim.Target.Rotate(lerp(originRotation, targetAngle, interp))
 	channel <- 0.0
 }
 

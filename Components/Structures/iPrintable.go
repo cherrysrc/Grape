@@ -66,15 +66,15 @@ func (object GObject) Print(depth int) {
 
 func (animation GAnimation) Print(depth int) {
 	printSpacer(depth)
-	fmt.Printf("GAnimation %.2f to %.2f\n", animation.StartFrame, animation.EndFrame)
+	fmt.Printf("%.2f to %.2f\n", animation.StartFrame, animation.EndFrame)
 
 	printSpacer(depth + 1)
-	fmt.Printf("Target: %s, Function: %s", animation.Target.ID, animation.Function)
+	fmt.Printf("Target: %s, Function: %s\n", animation.Target.ID, animation.Function)
 }
 
 func (scene GScene) Print(depth int) {
 	printSpacer(depth)
-	fmt.Printf("GScene\n")
+	fmt.Printf("Scene\n")
 
 	printSpacer(depth + 1)
 	fmt.Printf("Frames: %d\n", scene.Frames)

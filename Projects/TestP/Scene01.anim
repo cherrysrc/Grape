@@ -4,7 +4,8 @@
 {
 #moves a given object to a given location
 #in the given time
-RectangleA move_to 400 100
+RectangleA move_to 500 150
 RectangleA rotate_to 180
 ShapeB move_to 500 500
+ShapeB rotate_to 180
 };

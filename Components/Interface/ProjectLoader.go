@@ -72,17 +72,17 @@ func loadAnimations(name string, project Structures.GProject) []*Structures.GAni
 		framing := framingRegex.FindString(animationBlocks[i])
 		body := bodyRegex.FindString(animationBlocks[i])
 
-		reducedBody := body[1:len(body)-1]
+		reducedBody := body[1 : len(body)-1]
 		lines := strings.Split(reducedBody, "\n")
 
-		for i := range lines{
+		for i := range lines {
 			var anim Structures.GAnimation
 
 			anim.ParseFraming(framing)
 
 			anim.ParseLine(lines[i], project)
 
-			if anim.Target == nil{
+			if anim.Target == nil {
 				continue
 			}
 
@@ -106,9 +106,6 @@ func LoadProject(name string) *Structures.GProject {
 		scene := loadScene("./Projects/" + name + "/" + projectConfig.Scenes[i] + ".json")
 
 		for i := range scene.Objects {
-			//Calculate centers for every object of every scene
-			scene.Objects[i].CalculateCenter()
-
 			//Generate ID if necessary
 			if scene.Objects[i].ID == "" {
 				scene.Objects[i].GenerateID(5)

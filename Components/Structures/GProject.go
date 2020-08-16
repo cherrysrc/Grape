@@ -4,6 +4,7 @@ import (
 	"github.com/cherrysrc/Grape/Components/Utils"
 	"github.com/faiface/pixel"
 	"github.com/faiface/pixel/imdraw"
+	"math"
 )
 
 //Functions for GProject instances
@@ -93,8 +94,14 @@ func (project *GProject) CalculateVertices() {
 				}
 			}
 
+			originX := scene.Objects[i].Vertices[vertex][0]
+			originY := scene.Objects[i].Vertices[vertex][1]
+
+			rotatedX := originX*math.Cos(scene.Objects[i].Rotation) - originY*math.Sin(scene.Objects[i].Rotation)
+			rotatedY := originX*math.Sin(scene.Objects[i].Rotation) + originY*math.Cos(scene.Objects[i].Rotation)
+
 			//Add vertex
-			vertices.Push(pixel.V(scene.Objects[i].Vertices[vertex][0], scene.Objects[i].Vertices[vertex][1]))
+			vertices.Push(pixel.V(scene.Objects[i].GeometricCenter[0]+rotatedX, scene.Objects[i].GeometricCenter[1]+rotatedY))
 		}
 		//Finish up shape
 		vertices.Polygon(0)
@@ -146,7 +153,7 @@ func (project *GProject) executeAnimation(animation *GAnimation) {
 //Called each frame through Update()
 func (project *GProject) checkHooks() {
 	if animations, exists := project.animationHooks[project.frameIdx]; exists {
-		for i := range animations{
+		for i := range animations {
 			project.executeAnimation(animations[i])
 		}
 	}
@@ -155,7 +162,7 @@ func (project *GProject) checkHooks() {
 //Loops over every channel of the project
 //Sends the current frame trough the channels
 func (project *GProject) broadcastFrameToAnimations() {
-	for i := len(project.animChannels) - 1; i >= 0; i--{
+	for i := len(project.animChannels) - 1; i >= 0; i-- {
 		project.animChannels[i] <- project.frameIdx
 
 		status := <-project.animChannels[i]
