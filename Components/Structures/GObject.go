@@ -86,4 +86,5 @@ func (object *GObject) Rotate(angle float64) {
 		object.Vertices[i][0] = rotatedX + object.GeometricCenter[0]
 		object.Vertices[i][1] = rotatedY + object.GeometricCenter[1]
 	}
+	object.Rotation = angle
 }
