@@ -44,9 +44,9 @@ func PixelMain(projectName string) {
 		txt.Draw(win, pixel.IM.Scaled(txt.Orig, 4))
 
 		//TODO fix image flip
-		for y := project.StageSize[1] - 1; y >= 0; y-- {
+		for y := 0.0; y < project.StageSize[1]; y++ {
 			for x := 0.0; x < project.StageSize[0]; x++ {
-				rgba := win.Color(pixel.V(x, y))
+				rgba := win.Color(pixel.V(x, project.StageSize[1]-y-1))
 				C.setPixel(rendering, C.int(x), C.int(y), C.uchar(rgba.R*255), C.uchar(rgba.G*255), C.uchar(rgba.B*255))
 			}
 		}

@@ -48,7 +48,8 @@ void saveRendering(Rendering* rendering, char* filename)
 void writeRendering(Rendering* rendering)
 {
     printf("P6\n%d %d\n255\n", rendering->width, rendering->height);
-    fwrite(rendering->buffer, 3 * rendering->width * rendering->height, 1, stdout);
+    fwrite(rendering->buffer, sizeof(unsigned char), 3 * rendering->width * rendering->height, stdout);
+    fflush(stdout);
 }
 
 void freeRendering(Rendering* rendering)
