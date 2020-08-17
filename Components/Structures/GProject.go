@@ -100,12 +100,9 @@ func (project *GProject) CalculateVertices() {
 			//Set color
 			//Results in the last specified color to be used in case there is no color for every vertex
 			if vertex < colorCount {
-				vertices.Color = pixel.RGBA{
-					R: scene.Objects[i].Colors[vertex][0],
-					G: scene.Objects[i].Colors[vertex][1],
-					B: scene.Objects[i].Colors[vertex][2],
-					A: scene.Objects[i].Colors[vertex][3],
-				}
+				color := pixel.RGB(scene.Objects[i].Colors[vertex][0], scene.Objects[i].Colors[vertex][1], scene.Objects[i].Colors[vertex][2])
+				color = color.Mul(pixel.Alpha(scene.Objects[i].Transparency))
+				vertices.Color = color
 			}
 
 			originX := scene.Objects[i].Vertices[vertex][0]

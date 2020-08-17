@@ -9,15 +9,19 @@ type iObject interface {
 	GenerateID(int)
 	Translate([]float64)
 	Rotate(float64)
+	Fade(float64)
 }
 
 //Object Configuration
 type GObject struct {
-	ID              string
-	Rotation        float64
+	ID string
+
 	GeometricCenter []float64
-	Vertices        [][]float64
-	Colors          [][]float64
+	Rotation        float64
+	Transparency    float64
+
+	Vertices [][]float64
+	Colors   [][]float64
 }
 
 //--------------------
@@ -40,10 +44,11 @@ func (object *GObject) Translate(targetP []float64) {
 	object.GeometricCenter = targetP
 }
 
-//Rotates all vertices of an object around its center point
-//Subtract center position
-//Rotate around origin
-//Add center position
+//Sets objects rotation
 func (object *GObject) Rotate(angle float64) {
 	object.Rotation = angle
+}
+
+func (object *GObject) Fade(a float64) {
+	object.Transparency = a
 }

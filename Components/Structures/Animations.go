@@ -5,11 +5,15 @@ import (
 	"strconv"
 )
 
+//Todo individual vertex translation
+//Todo individual vertex fading
+
 //Map containing references to every animation
 //Keys correspond to the .anim file contents
 var AnimFunctions = map[string]interface{}{
 	"move_to":       TranslateAnim,
 	"rotate_to":     RotateAnim,
+	"fade_to":       FadeAnim,
 	"scene_transit": SceneTransit,
 }
 
@@ -49,6 +53,8 @@ func TranslateAnim(params []interface{}) {
 		frame = <-channel
 		interp = (frame - anim.StartFrame) / duration
 	}
+	interp = 1
+	anim.Target.Translate(lerp2D(originPos, targetPos, interp))
 	channel <- 0.0
 }
 
@@ -56,11 +62,11 @@ func TranslateAnim(params []interface{}) {
 //RotateAnim(angle float64, animation *GAnimation, channel chan float64)
 func RotateAnim(params []interface{}) {
 	targetAngle, err := strconv.ParseFloat(params[0].(string), 64)
-	//Convert to radians
-	targetAngle = targetAngle * math.Pi / 180
 	if err != nil {
 		panic("Wrong argument type in animation")
 	}
+	//Convert to radians
+	targetAngle = targetAngle * math.Pi / 180
 
 	anim := params[1].(*GAnimation)
 	channel := params[2].(chan float64)
@@ -84,6 +90,39 @@ func RotateAnim(params []interface{}) {
 	}
 	interp = 1
 	anim.Target.Rotate(lerp(originRotation, targetAngle, interp))
+	channel <- 0.0
+}
+
+//Fades all vertices based on the first one
+//FadeAnim(targetA float64, animation *GAnimation, channel chan float64)
+func FadeAnim(params []interface{}) {
+	targetA, err := strconv.ParseFloat(params[0].(string), 64)
+	if err != nil {
+		panic("Wrong argument type in animation")
+	}
+
+	anim := params[1].(*GAnimation)
+	channel := params[2].(chan float64)
+
+	//Save original transparency (RGBA-A)
+	originA := anim.Target.Transparency
+
+	duration := anim.EndFrame - anim.StartFrame
+
+	frame := <-channel
+	//Calculate current interpolation progress based on the current frame received through the channel
+	interp := (frame - anim.StartFrame) / duration
+	for frame < anim.EndFrame {
+		channel <- 1.0
+		//Linearly interpolate between target and original transparency
+		anim.Target.Fade(lerp(originA, targetA, interp))
+
+		//Update frame and interpolation progress
+		frame = <-channel
+		interp = (frame - anim.StartFrame) / duration
+	}
+	interp = 1
+	anim.Target.Fade(lerp(originA, targetA, interp))
 	channel <- 0.0
 }
 

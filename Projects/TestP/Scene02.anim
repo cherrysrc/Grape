@@ -1,4 +1,9 @@
 #relative to scene start
+(5 50)
+{
+RectB fade_to 1.0
+RectC fade_to 1.0
+};
 (50 150)
 {
 RectB move_to 400 300
