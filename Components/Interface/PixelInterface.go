@@ -13,6 +13,9 @@ import (
 
 //Main loop for pixel engine
 func PixelMain(projectName string) {
+	//Todo cli args
+	render := false
+
 	project := LoadProject(projectName)
 
 	rendering := C.createRendering(C.int(project.StageSize[0]), C.int(project.StageSize[1]))
@@ -43,15 +46,16 @@ func PixelMain(projectName string) {
 		project.Vertices.Draw(win)
 		txt.Draw(win, pixel.IM.Scaled(txt.Orig, 4))
 
-		//TODO fix image flip
-		for y := 0.0; y < project.StageSize[1]; y++ {
-			for x := 0.0; x < project.StageSize[0]; x++ {
-				rgba := win.Color(pixel.V(x, project.StageSize[1]-y-1))
-				C.setPixel(rendering, C.int(x), C.int(y), C.uchar(rgba.R*255), C.uchar(rgba.G*255), C.uchar(rgba.B*255))
+		if render {
+			for y := 0.0; y < project.StageSize[1]; y++ {
+				for x := 0.0; x < project.StageSize[0]; x++ {
+					rgba := win.Color(pixel.V(x, project.StageSize[1]-y-1))
+					C.setPixel(rendering, C.int(x), C.int(y), C.uchar(rgba.R*255), C.uchar(rgba.G*255), C.uchar(rgba.B*255))
+				}
 			}
-		}
 
-		C.writeRendering(rendering)
+			C.writeRendering(rendering)
+		}
 		win.Update()
 	}
 }

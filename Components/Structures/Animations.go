@@ -5,6 +5,8 @@ import (
 	"strconv"
 )
 
+//Map containing references to every animation
+//Keys correspond to the .anim file contents
 var AnimFunctions = map[string]interface{}{
 	"move_to":       TranslateAnim,
 	"rotate_to":     RotateAnim,
@@ -85,6 +87,9 @@ func RotateAnim(params []interface{}) {
 	channel <- 0.0
 }
 
+//Special type of animation
+//Gets auto inserted at the corresponding frames
+//Executes a scene switch
 func SceneTransit(params []interface{}) {
 	project := params[0].(*GProject)
 	channel := params[2].(chan float64)
@@ -97,10 +102,15 @@ func SceneTransit(params []interface{}) {
 	channel <- 0.0
 }
 
+//Helper Function
+//Performs 1D linear interpolation
 func lerp(v0 float64, v1 float64, t float64) float64 {
 	return (1-t)*v0 + t*v1
 }
 
+//Helper Function
+//Performs 2D linear interpolation
+//Uses 1D linear interpolation on each component
 func lerp2D(v0 []float64, v1 []float64, t float64) []float64 {
 	return []float64{
 		lerp(v0[0], v1[0], t),
