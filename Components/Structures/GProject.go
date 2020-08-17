@@ -90,6 +90,7 @@ func (project *GProject) CalculateVertices() {
 		return
 	}
 
+	vertices.EndShape = imdraw.RoundEndShape
 	for i := range scene.Objects {
 
 		colorCount := len(scene.Objects[i].Colors)
@@ -117,7 +118,7 @@ func (project *GProject) CalculateVertices() {
 			vertices.Push(pixel.V(scene.Objects[i].GeometricCenter[0]+rotatedX, scene.Objects[i].GeometricCenter[1]+rotatedY))
 		}
 		//Finish up shape
-		vertices.Polygon(1)
+		vertices.Polygon(2)
 	}
 
 	project.Vertices = vertices

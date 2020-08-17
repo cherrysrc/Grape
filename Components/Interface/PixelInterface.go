@@ -1,5 +1,7 @@
 package Interface
 
+//#include "../C/Rendering.h"
+import "C"
 import (
 	"fmt"
 	"github.com/faiface/pixel"
@@ -12,11 +14,13 @@ import (
 //Main loop for pixel engine
 func PixelMain(projectName string) {
 	project := LoadProject(projectName)
-	project.Print(0)
+
+	rendering := C.createRendering(C.int(project.StageSize[0]), C.int(project.StageSize[1]))
+	defer C.freeRendering(rendering)
 
 	cfg := pixelgl.WindowConfig{
 		Title:  projectName,
-		Bounds: pixel.R(0, 0, 800, 600),
+		Bounds: pixel.R(0, 0, project.StageSize[0], project.StageSize[1]),
 		VSync:  true,
 	}
 	win, err := pixelgl.NewWindow(cfg)
@@ -39,6 +43,15 @@ func PixelMain(projectName string) {
 		project.Vertices.Draw(win)
 		txt.Draw(win, pixel.IM.Scaled(txt.Orig, 4))
 
+		//TODO fix image flip
+		for y := project.StageSize[1] - 1; y >= 0; y-- {
+			for x := 0.0; x < project.StageSize[0]; x++ {
+				rgba := win.Color(pixel.V(x, y))
+				C.setPixel(rendering, C.int(x), C.int(y), C.uchar(rgba.R*255), C.uchar(rgba.G*255), C.uchar(rgba.B*255))
+			}
+		}
+
+		C.writeRendering(rendering)
 		win.Update()
 	}
 }
