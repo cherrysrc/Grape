@@ -140,7 +140,11 @@ func (project GProject) GetObjectByID(id string) *GObject {
 //Fills the projects map of points in time and corresponding animations
 func (project *GProject) GenerateAnimationHooks(animations []*GAnimation, sceneOffset float64) {
 	for i := range animations {
-		project.animationHooks[sceneOffset+animations[i].StartFrame] = append(project.animationHooks[sceneOffset+animations[i].StartFrame], animations[i])
+		//Adjust animation start and end according to the scene they're in
+		animations[i].StartFrame += sceneOffset
+		animations[i].EndFrame += sceneOffset
+
+		project.animationHooks[animations[i].StartFrame] = append(project.animationHooks[animations[i].StartFrame], animations[i])
 	}
 }
 

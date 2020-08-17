@@ -88,10 +88,12 @@ func RotateAnim(params []interface{}) {
 func SceneTransit(params []interface{}) {
 	project := params[0].(*GProject)
 	channel := params[2].(chan float64)
+	//Ignore frameIdx, doesnt matter here
 	_ = <-channel
 
 	project.NextScene()
 
+	//Send back 0.0 to let the main thread know this animation is done
 	channel <- 0.0
 }
 
