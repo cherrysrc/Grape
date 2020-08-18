@@ -4,19 +4,29 @@
     {
       "id": "RectangleA",
       "geometriccenter": [100, 100],
-      "transparency": 1.0,
+      "transparency": 0.0,
       "vertices": [
-        [-100, -100], [100, -100], [100, 100], [-100, 100]
+        [-50, -50], [50, -50], [50, 50], [-50, 50]
       ],
       "colors": [
         [0.9, 0.9, 0.9]
       ]
-    }, {
-      "id": "ShapeB",
-      "geometriccenter": [400, 400],
-      "transparency": 1.0,
+    },{
+      "id": "RectangleB",
+      "geometriccenter": [100, 200],
+      "transparency": 0.0,
       "vertices": [
-        [0, 100], [-100, -50], [100, -50]
+        [-50, -50], [50, -50], [50, 50], [-50, 50]
+      ],
+      "colors": [
+        [0.9, 0.9, 0.9]
+      ]
+    },{
+      "id": "RectangleC",
+      "geometriccenter": [100, 300],
+      "transparency": 0.0,
+      "vertices": [
+        [-50, -50], [50, -50], [50, 50], [-50, 50]
       ],
       "colors": [
         [0.9, 0.9, 0.9]

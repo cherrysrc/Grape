@@ -1,21 +1,16 @@
-package Interface
+package ProgramInterface
 
 //#include "../C/Rendering.h"
 import "C"
 import (
-	"fmt"
 	"github.com/faiface/pixel"
 	"github.com/faiface/pixel/pixelgl"
-	"github.com/faiface/pixel/text"
 	"golang.org/x/image/colornames"
-	"golang.org/x/image/font/basicfont"
 )
 
 //Main loop for pixel engine
-func PixelMain(projectName string) {
+func PixelMain(projectName string, exporting bool) {
 	//Todo cli args
-	render := false
-
 	project, lastFrame := LoadProject(projectName)
 
 	//C Library for outputting NetPBM images to stdout
@@ -32,22 +27,16 @@ func PixelMain(projectName string) {
 		panic(err)
 	}
 
-	atlas := text.NewAtlas(basicfont.Face7x13, text.ASCII)
-	txt := text.New(pixel.V(0, 0), atlas)
-
 	frame := 0.0
 	for !win.Closed() {
 		win.Clear(colornames.Black)
-		txt.Clear()
 
-		fmt.Fprintln(txt, frame)
 		frame++
 		project.Update()
 
 		project.Vertices.Draw(win)
-		txt.Draw(win, pixel.IM.Scaled(txt.Orig, 4))
 
-		if render {
+		if exporting {
 			for y := 0.0; y < project.StageSize[1]; y++ {
 				for x := 0.0; x < project.StageSize[0]; x++ {
 					rgba := win.Color(pixel.V(x, project.StageSize[1]-y-1))
@@ -57,6 +46,7 @@ func PixelMain(projectName string) {
 
 			C.writeRendering(rendering)
 		}
+
 		win.Update()
 
 		//Close window if all frames have been done

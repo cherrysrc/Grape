@@ -1,41 +1,63 @@
 #first number is the frame at which the animation ends
 #second number is the frame at which the animation ends
-(100 150)
+(0 100)
 {
-#moves a given object to a given location
-#in the given time
-RectangleA move_to 500 150
-RectangleA rotate_to 180
-ShapeB move_to 500 500
-ShapeB rotate_to 180
+RectangleA fade 1.0
 };
-(150 250)
+(50 150)
 {
-RectangleA move_to 100 400
-RectangleA rotate_to 270
-ShapeB move_to 400 100
-ShapeB rotate_to 90
+RectangleB fade 1.0
 };
-(250 350)
+(100 200)
 {
-RectangleA move_to 100 100
-RectangleA rotate_to 90
-ShapeB move_to 400 500
-ShapeB rotate_to 270
+RectangleC fade 1.0
 };
-(350 450)
+(200 250)
 {
-RectangleA move_to 400 300
-RectangleA rotate_to 45
-ShapeB move_to 100 100
-ShapeB rotate_to 45
+RectangleB move 200 100
+RectangleB rotate -90
 };
-(450 600)
+(250 300)
 {
-RectangleA move_to 700 100
-RectangleA rotate_to 0
-ShapeB move_to 400 300
-ShapeB rotate_to 0
-RectangleA fade_to 0.0
-ShapeB fade_to 0.0
+RectangleC move 300 100
+RectangleC rotate -90
+};
+(300 350)
+{
+RectangleA move 300 300
+RectangleA rotate 45
+};
+(300 350)
+{
+RectangleB move 400 300
+RectangleB rotate -45
+};
+(300 350)
+{
+RectangleC move 500 300
+RectangleC rotate 45
+};
+(350 400)
+{
+RectangleA move 200 300
+RectangleC move 600 300
+
+RectangleA rotate 90
+RectangleB rotate 45
+RectangleC rotate 90
+};
+(400 600)
+{
+RectangleA move 200 0
+RectangleA fade 0.0
+};
+(500 600)
+{
+RectangleB move 400 0
+RectangleB fade 0.0
+};
+(550 600)
+{
+RectangleC move 600 0
+RectangleC fade 0.0
 };

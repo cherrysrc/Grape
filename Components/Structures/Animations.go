@@ -11,9 +11,9 @@ import (
 //Map containing references to every animation
 //Keys correspond to the .anim file contents
 var AnimFunctions = map[string]interface{}{
-	"move_to":       TranslateAnim,
-	"rotate_to":     RotateAnim,
-	"fade_to":       FadeAnim,
+	"move":       TranslateAnim,
+	"rotate":     RotateAnim,
+	"fade":       FadeAnim,
 	"scene_transit": SceneTransit,
 }
 

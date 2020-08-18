@@ -1,31 +1,31 @@
 #relative to scene start
 (5 50)
 {
-RectB fade_to 1.0
-RectC fade_to 1.0
+RectB fade 1.0
+RectC fade 1.0
 };
 (50 150)
 {
-RectB move_to 400 300
-RectC move_to 400 300
+RectB move 400 300
+RectC move 400 300
 };
 (150 250)
 {
-RectB rotate_to 90
-RectC rotate_to -90
+RectB rotate 90
+RectC rotate -90
 };
 (250 350)
 {
-RectB rotate_to 180
-RectC rotate_to -180
+RectB rotate 180
+RectC rotate -180
 };
 (350 450)
 {
-RectB rotate_to 270
-RectC rotate_to -270
+RectB rotate 270
+RectC rotate -270
 };
 (450 550)
 {
-RectB rotate_to 360
-RectC rotate_to -360
+RectB rotate 360
+RectC rotate -360
 };
