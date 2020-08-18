@@ -16,8 +16,9 @@ func PixelMain(projectName string) {
 	//Todo cli args
 	render := false
 
-	project := LoadProject(projectName)
+	project, lastFrame := LoadProject(projectName)
 
+	//C Library for outputting NetPBM images to stdout
 	rendering := C.createRendering(C.int(project.StageSize[0]), C.int(project.StageSize[1]))
 	defer C.freeRendering(rendering)
 
@@ -34,7 +35,7 @@ func PixelMain(projectName string) {
 	atlas := text.NewAtlas(basicfont.Face7x13, text.ASCII)
 	txt := text.New(pixel.V(0, 0), atlas)
 
-	frame := 0
+	frame := 0.0
 	for !win.Closed() {
 		win.Clear(colornames.Black)
 		txt.Clear()
@@ -57,5 +58,10 @@ func PixelMain(projectName string) {
 			C.writeRendering(rendering)
 		}
 		win.Update()
+
+		//Close window if all frames have been done
+		if frame >= lastFrame{
+			win.SetClosed(true)
+		}
 	}
 }

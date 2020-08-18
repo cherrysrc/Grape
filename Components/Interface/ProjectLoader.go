@@ -100,7 +100,7 @@ func loadAnimations(name string, project Structures.GProject) []*Structures.GAni
 //Loads a project specified by its name
 //Displays warnings in case of partly incompletely specified objects
 //Generates animation hooks
-func LoadProject(name string) *Structures.GProject {
+func LoadProject(name string) (*Structures.GProject, float64) {
 	projectConfig := loadConfig("./Projects/" + name + "/config.json")
 	var project Structures.GProject
 
@@ -152,5 +152,5 @@ func LoadProject(name string) *Structures.GProject {
 	project.PostProcess()
 	project.CalculateVertices()
 
-	return &project
+	return &project, sceneOffset
 }
