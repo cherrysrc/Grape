@@ -4,12 +4,6 @@ import (
 	"fmt"
 )
 
-//Printing of Animation relevant objects
-//Uses indentation
-type iPrintable interface {
-	Print(int)
-}
-
 //---------------
 //Various debug printing related methods
 //---------------
@@ -20,7 +14,7 @@ func printSpacer(count int) {
 	}
 }
 
-func (project GProject) Print(depth int) {
+func (project *GProject) Print(depth int) {
 	printSpacer(depth)
 	fmt.Printf("GProject %s\n", project.Name)
 
@@ -37,7 +31,7 @@ func (project GProject) Print(depth int) {
 	}
 }
 
-func (object GObject) Print(depth int) {
+func (object *GObject) Print(depth int) {
 	printSpacer(depth)
 	fmt.Printf("ID: %s\n", object.ID)
 
@@ -64,7 +58,7 @@ func (object GObject) Print(depth int) {
 	fmt.Println()
 }
 
-func (animation GAnimation) Print(depth int) {
+func (animation *GAnimation) Print(depth int) {
 	printSpacer(depth)
 	fmt.Printf("%.2f to %.2f\n", animation.StartFrame, animation.EndFrame)
 
@@ -72,7 +66,7 @@ func (animation GAnimation) Print(depth int) {
 	fmt.Printf("Target: %s, Function: %s\n", animation.Target.ID, animation.Function)
 }
 
-func (scene GScene) Print(depth int) {
+func (scene *GScene) Print(depth int) {
 	printSpacer(depth)
 	fmt.Printf("Scene\n")
 

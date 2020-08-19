@@ -7,29 +7,6 @@ import (
 	"math"
 )
 
-//Functions for GProject instances
-type iProject interface {
-	Init()
-	GetCurrentScene() *GScene
-	SetCurrentScene(int)
-
-	CalculateVertices()
-	GetObjectByID(string, GProject) *GObject
-
-	GenerateAnimationHooks([]*GAnimation, float64)
-	executeAnimation(*GAnimation)
-	checkHooks()
-	broadcastFrameToAnimations()
-
-	Update()
-
-	NextScene()
-	NextFrame()
-
-	PreProcess()
-	PostProcess()
-}
-
 //Project struct
 //Used for json parsing
 type GProjectConfig struct {

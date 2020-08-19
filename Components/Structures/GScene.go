@@ -7,3 +7,4 @@ type GScene struct {
 	Objects    []GObject
 	Animations []*GAnimation
 }
+

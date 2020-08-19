@@ -4,14 +4,6 @@ import (
 	"math/rand"
 )
 
-//Animatable objects implement these functions
-type iObject interface {
-	GenerateID(int)
-	Translate([]float64)
-	Rotate(float64)
-	Fade(float64)
-}
-
 //Object Configuration
 type GObject struct {
 	ID string

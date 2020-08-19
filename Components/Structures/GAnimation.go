@@ -5,12 +5,6 @@ import (
 	"strings"
 )
 
-//Functions for GAnimation instances
-type iAnimation interface {
-	ParseFraming(string)
-	ParseBody(string)
-}
-
 //Animation information
 type GAnimation struct {
 	StartFrame float64
