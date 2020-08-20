@@ -77,6 +77,7 @@ func (project *GProject) CalculateVertices() {
 			//Set color
 			//Results in the last specified color to be used in case there is no color for every vertex
 			if vertex < colorCount {
+				//Apply Color + Transparency
 				color := pixel.RGB(scene.Objects[i].Colors[vertex][0], scene.Objects[i].Colors[vertex][1], scene.Objects[i].Colors[vertex][2])
 				color = color.Mul(pixel.Alpha(scene.Objects[i].Transparency))
 				vertices.Color = color
@@ -85,8 +86,13 @@ func (project *GProject) CalculateVertices() {
 			originX := scene.Objects[i].Vertices[vertex][0]
 			originY := scene.Objects[i].Vertices[vertex][1]
 
+			//Rotate
 			rotatedX := originX*math.Cos(scene.Objects[i].Rotation) - originY*math.Sin(scene.Objects[i].Rotation)
 			rotatedY := originX*math.Sin(scene.Objects[i].Rotation) + originY*math.Cos(scene.Objects[i].Rotation)
+
+			//Scale
+			rotatedX *= scene.Objects[i].Scale
+			rotatedY *= scene.Objects[i].Scale
 
 			//Add vertex
 			vertices.Push(pixel.V(scene.Objects[i].GeometricCenter[0]+rotatedX, scene.Objects[i].GeometricCenter[1]+rotatedY))

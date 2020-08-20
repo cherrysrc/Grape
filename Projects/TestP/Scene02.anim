@@ -8,11 +8,33 @@ RectC fade 1.0
 {
 RectB move 400 300
 RectC move 400 300
+RectB scale 1.0
+RectC scale 1.0
 };
 (150 250)
 {
 RectB rotate 90
 RectC rotate -90
+};
+(250 275)
+{
+RectB scale 0.25
+};
+(275 300)
+{
+RectB scale 1.0
+};
+(350 375)
+{
+RectC scale 1.25
+};
+(375 400)
+{
+RectC scale 0.25
+};
+(400 425)
+{
+RectC scale 1.0
 };
 (250 350)
 {

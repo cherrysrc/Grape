@@ -11,6 +11,7 @@ type GObject struct {
 	GeometricCenter []float64
 	Rotation        float64
 	Transparency    float64
+	Scale           float64
 
 	Vertices [][]float64
 	Colors   [][]float64
@@ -43,4 +44,8 @@ func (object *GObject) Rotate(angle float64) {
 
 func (object *GObject) Fade(a float64) {
 	object.Transparency = a
+}
+
+func (object *GObject) Scl(scl float64) {
+	object.Scale = scl
 }

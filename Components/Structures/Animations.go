@@ -11,9 +11,10 @@ import (
 //Map containing references to every animation
 //Keys correspond to the .anim file contents
 var AnimFunctions = map[string]interface{}{
-	"move":       TranslateAnim,
-	"rotate":     RotateAnim,
-	"fade":       FadeAnim,
+	"move":          TranslateAnim,
+	"rotate":        RotateAnim,
+	"fade":          FadeAnim,
+	"scale":         ScaleAnim,
 	"scene_transit": SceneTransit,
 }
 
@@ -123,6 +124,39 @@ func FadeAnim(params []interface{}) {
 	}
 	interp = 1
 	anim.Target.Fade(lerp(originA, targetA, interp))
+	channel <- 0.0
+}
+
+//Scales object up
+//ScaleAnim(targetScl float64, animation *GAnimation, channel chan float64)
+func ScaleAnim(params []interface{}) {
+	targetScl, err := strconv.ParseFloat(params[0].(string), 64)
+	if err != nil {
+		panic("Wrong argument type in animation")
+	}
+
+	anim := params[1].(*GAnimation)
+	channel := params[2].(chan float64)
+
+	//Save original transparency (RGBA-A)
+	originScl := anim.Target.Scale
+
+	duration := anim.EndFrame - anim.StartFrame
+
+	frame := <-channel
+	//Calculate current interpolation progress based on the current frame received through the channel
+	interp := (frame - anim.StartFrame) / duration
+	for frame < anim.EndFrame {
+		channel <- 1.0
+		//Linearly interpolate between target and original transparency
+		anim.Target.Scl(lerp(originScl, targetScl, interp))
+
+		//Update frame and interpolation progress
+		frame = <-channel
+		interp = (frame - anim.StartFrame) / duration
+	}
+	interp = 1
+	anim.Target.Scl(lerp(originScl, targetScl, interp))
 	channel <- 0.0
 }
 

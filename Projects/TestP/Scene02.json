@@ -5,6 +5,7 @@
       "id": "RectB",
       "geometriccenter": [100, 100],
       "transparency": 0.0,
+      "scale": 0.25,
       "vertices": [
         [-100, 0], [0, 100], [100, 0], [0, -100]
       ],
@@ -15,6 +16,7 @@
       "id": "RectC",
       "geometriccenter": [300, 300],
       "transparency": 0.0,
+      "scale": 0.25,
       "vertices": [
         [-100, 0], [0, 200], [100, 0], [0, -200]
       ],

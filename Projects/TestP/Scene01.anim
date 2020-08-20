@@ -16,16 +16,21 @@ RectangleC fade 1.0
 {
 RectangleB move 200 100
 RectangleB rotate -90
+RectangleB scale 0.75
 };
 (250 300)
 {
 RectangleC move 300 100
 RectangleC rotate -90
+RectangleC scale 0.6
 };
 (300 350)
 {
 RectangleA move 300 300
 RectangleA rotate 45
+RectangleA scale 1.0
+RectangleB scale 1.0
+RectangleC scale 1.0
 };
 (300 350)
 {
