@@ -6,11 +6,13 @@ Go Rendering and Animation Program Experiment
 <br><br><br>
 
 <h2 align="center">
-Demonstration:
+Demonstration (Youtube-Link)
 </h2>
 
 <div style="text-align:center">
-<a href="https://www.youtube.com/watch?v=U7uCXSVZa1s"><img src="(https://img.youtube.com/vi/U7uCXSVZa1s/0.jpg" width="800" height="600" title="White flower" alt="Flower"></a>
+    <a href="https://www.youtube.com/watch?v=U7uCXSVZa1s">
+        <img src="https://img.youtube.com/vi/U7uCXSVZa1s/0.jpg" width="800" height="600" title="Demo" alt="Demo">
+    </a>
 </div>
 
 <h2 align="center">How to use</h2>
