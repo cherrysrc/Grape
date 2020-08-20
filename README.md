@@ -18,6 +18,7 @@ Go Rendering and Animation Program Experiment
 
 ```
 sh CompileAndRun.sh TestP
+(Requires ffmpeg)
 ```
 
 This will render the example project into "(ProjectName).mp4"
