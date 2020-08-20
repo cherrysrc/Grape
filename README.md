@@ -1,6 +1,6 @@
-<div style="text-align:center">
+<p align="center">
     <img src="logo.png" width="700" height="320" title="Demo" alt="Demo">
-</div>
+</p>
 <h1 align="center">
 Go Rendering and Animation Program Experiment
 </h1>
@@ -12,11 +12,11 @@ Go Rendering and Animation Program Experiment
 Demonstration (Youtube-Link)
 </h2>
 
-<div style="text-align:center">
+<p align="center">
     <a href="https://youtu.be/dChzaAK0P1U">
         <img src="https://img.youtube.com/vi/dChzaAK0P1U/0.jpg" width="800" height="600" title="Demo" alt="Demo">
     </a>
-</div>
+</p>
 
 <h2 align="center">How to use</h2>
 
