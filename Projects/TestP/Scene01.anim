@@ -26,26 +26,26 @@ RectangleC scale 0.6
 };
 (300 350)
 {
-RectangleA move 300 300
+RectangleA move 960 540
 RectangleA rotate 45
-RectangleA scale 1.0
-RectangleB scale 1.0
-RectangleC scale 1.0
+RectangleA scale 3.0
+RectangleB scale 3.0
+RectangleC scale 3.0
 };
 (300 350)
 {
-RectangleB move 400 300
+RectangleB move 760 540
 RectangleB rotate -45
 };
 (300 350)
 {
-RectangleC move 500 300
+RectangleC move 1160 540
 RectangleC rotate 45
 };
 (350 400)
 {
-RectangleA move 200 300
-RectangleC move 600 300
+RectangleA move 760 540
+RectangleC move 1160 540
 
 RectangleA rotate 90
 RectangleB rotate 45
@@ -53,16 +53,16 @@ RectangleC rotate 90
 };
 (400 600)
 {
-RectangleA move 200 0
+RectangleA move 760 0
 RectangleA fade 0.0
 };
 (500 600)
 {
-RectangleB move 400 0
+RectangleB move 960 0
 RectangleB fade 0.0
 };
 (550 600)
 {
-RectangleC move 600 0
+RectangleC move 1160 0
 RectangleC fade 0.0
 };
