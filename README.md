@@ -1,9 +1,12 @@
-<h1 align="center">Grape</h1>
-<p align="center">
+<div style="text-align:center">
+    <img src="logo.png" width="700" height="320" title="Demo" alt="Demo">
+</div>
+<h1 align="center">
 Go Rendering and Animation Program Experiment
-</p>
-
-<br><br><br>
+</h1>
+<p align="center">
+    <img src="https://img.shields.io/badge/-Golang-blue?style=for-the-badge&logo=go" />
+</div>
 
 <h2 align="center">
 Demonstration (Youtube-Link)

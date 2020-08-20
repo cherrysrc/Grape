@@ -65,10 +65,10 @@ RectC move 480 540
 RectC rotate 0.0
 RectC scale 2.0
 };
-(500 600)
+(500 550)
 {
 RectB move 960 540
-RectB scale 2.5
+RectB scale 2
 RectC move 960 540
-RectC scale 2.5
+RectC scale 2
 };
