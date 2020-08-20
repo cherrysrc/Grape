@@ -9,7 +9,9 @@ Go Rendering and Animation Program Experiment
 Demonstration:
 </h2>
 
-[![Animation Example](https://img.youtube.com/vi/U7uCXSVZa1s/0.jpg)](https://www.youtube.com/watch?v=U7uCXSVZa1s)
+<div style="text-align:center">
+<a href="https://www.youtube.com/watch?v=U7uCXSVZa1s"><img src="(https://img.youtube.com/vi/U7uCXSVZa1s/0.jpg" width="800" height="600" title="White flower" alt="Flower"></a>
+</div>
 
 <h2 align="center">How to use</h2>
 
