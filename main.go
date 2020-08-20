@@ -8,14 +8,10 @@ import (
 
 func main() {
 	pixelgl.Run(func() {
-		export := false
-
-		if len(os.Args) > 1{
-			if os.Args[1] == "export"{
-				export = true
-			}
+		if len(os.Args) < 2 {
+			panic("No Project Given!")
 		}
 
-		ProgramInterface.PixelMain("TestP", export)
+		ProgramInterface.PixelMain(os.Args[1])
 	})
 }

@@ -9,7 +9,7 @@ import (
 )
 
 //Main loop for pixel engine
-func PixelMain(projectName string, exporting bool) {
+func PixelMain(projectName string) {
 	//Todo cli args
 	project, lastFrame := LoadProject(projectName)
 
@@ -36,21 +36,19 @@ func PixelMain(projectName string, exporting bool) {
 
 		project.Vertices.Draw(win)
 
-		if exporting {
-			for y := 0.0; y < project.StageSize[1]; y++ {
-				for x := 0.0; x < project.StageSize[0]; x++ {
-					rgba := win.Color(pixel.V(x, project.StageSize[1]-y-1))
-					C.setPixel(rendering, C.int(x), C.int(y), C.uchar(rgba.R*255), C.uchar(rgba.G*255), C.uchar(rgba.B*255))
-				}
+		for y := 0.0; y < project.StageSize[1]; y++ {
+			for x := 0.0; x < project.StageSize[0]; x++ {
+				rgba := win.Color(pixel.V(x, project.StageSize[1]-y-1))
+				C.setPixel(rendering, C.int(x), C.int(y), C.uchar(rgba.R*255), C.uchar(rgba.G*255), C.uchar(rgba.B*255))
 			}
-
-			C.writeRendering(rendering)
 		}
+
+		C.writeRendering(rendering)
 
 		win.Update()
 
 		//Close window if all frames have been done
-		if frame >= lastFrame{
+		if frame >= lastFrame {
 			win.SetClosed(true)
 		}
 	}
