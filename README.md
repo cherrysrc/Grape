@@ -9,14 +9,8 @@ Go Rendering and Animation Program Experiment
 </div>
 
 <h2 align="center">
-Demonstration (Youtube-Link)
+    <a href="https://youtu.be/dChzaAK0P1U">Demo (Youtube)</a>
 </h2>
-
-<p align="center">
-    <a href="https://youtu.be/dChzaAK0P1U">
-        <img src="https://img.youtube.com/vi/dChzaAK0P1U/0.jpg" width="800" height="600" title="Demo" alt="Demo">
-    </a>
-</p>
 
 <h2 align="center">How to use</h2>
 
